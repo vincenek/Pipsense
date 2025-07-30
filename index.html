@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PipSense Pro | AI-Powered Trading Intelligence</title>
+    <title>PipSense Pro | AI Trading Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -30,6 +30,7 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -39,6 +40,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             position: relative;
+            font-size: 16px;
         }
         
         body::before {
@@ -57,21 +59,19 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
         
         /* Header with animated gradient */
         header {
             text-align: center;
-            padding: 30px 0;
-            margin-bottom: 30px;
+            padding: 20px 15px;
+            margin-bottom: 20px;
             position: relative;
             overflow: hidden;
-            border-radius: 0 0 20px 20px;
             background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(71, 85, 105, 0.3);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
         
         .header-gradient {
@@ -99,55 +99,51 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
         
         .logo h1 {
-            font-size: 2.8rem;
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(90deg, #60a5fa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             text-shadow: 0 2px 10px rgba(96, 165, 250, 0.2);
         }
         
         .logo-icon {
-            font-size: 2.8rem;
+            font-size: 2rem;
             background: linear-gradient(135deg, #60a5fa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
         
         .tagline {
             color: var(--text-secondary);
-            font-size: 1.2rem;
+            font-size: 0.95rem;
             max-width: 600px;
-            margin: 10px auto 0;
+            margin: 5px auto 0;
             font-weight: 300;
         }
         
-        /* Enhanced Tab Navigation */
+        /* Enhanced Tab Navigation - Mobile Friendly */
         .tabs-container {
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 5px;
         }
         
         .tabs {
             display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
+            gap: 6px;
             position: relative;
             z-index: 2;
+            width: max-content;
+            padding: 0 10px 5px;
         }
         
         .tab-indicator {
@@ -164,25 +160,25 @@
             background: rgba(30, 41, 59, 0.7);
             border: none;
             color: var(--text-secondary);
-            padding: 14px 30px;
-            border-radius: 12px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(71, 85, 105, 0.3);
             position: relative;
             z-index: 2;
+            white-space: nowrap;
         }
         
         .tab-btn:hover {
             background: rgba(51, 65, 85, 0.7);
             color: var(--text-primary);
-            transform: translateY(-2px);
         }
         
         .tab-btn.active {
@@ -196,17 +192,17 @@
         .tab-content {
             display: none;
             background: rgba(30, 41, 59, 0.85);
-            border-radius: 20px;
-            padding: 35px;
-            margin-bottom: 40px;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
             border: 1px solid rgba(71, 85, 105, 0.3);
             backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -217,25 +213,25 @@
         .tab-header {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
         }
         
         .tab-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: var(--primary-gradient);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
         
         .tab-title {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
             background: linear-gradient(90deg, #f8fafc, #cbd5e1);
             -webkit-background-clip: text;
@@ -244,80 +240,63 @@
         
         .tab-subtitle {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-top: 5px;
+            font-size: 0.95rem;
+            margin-top: 3px;
         }
         
-        /* AI ChartBot - Enhanced */
+        /* AI ChartBot - Mobile Enhanced */
         .chat-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-        
-        .chat-box {
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 25px;
-            min-height: 250px;
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
         
-        .message {
-            padding: 15px 20px;
+        .chat-box {
+            background: rgba(15, 23, 42, 0.7);
             border-radius: 14px;
-            max-width: 85%;
+            padding: 18px;
+            min-height: 200px;
+            max-height: 350px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 90%;
             animation: messageAppear 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-size: 0.95rem;
         }
         
         @keyframes messageAppear {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .message::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.05;
-            z-index: -1;
         }
         
         .user-message {
             background: linear-gradient(90deg, rgba(37, 99, 235, 0.3), rgba(37, 99, 235, 0.15));
             margin-left: auto;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .user-message::before {
-            background: var(--primary);
+            border-bottom-right-radius: 4px;
         }
         
         .ai-message {
             background: linear-gradient(90deg, rgba(30, 41, 59, 0.3), rgba(30, 41, 59, 0.15));
-            border-bottom-left-radius: 5px;
-        }
-        
-        .ai-message::before {
-            background: var(--bg-card);
+            border-bottom-left-radius: 4px;
         }
         
         .message-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .ai-header {
@@ -326,17 +305,17 @@
         
         .chat-input {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
         
         .chat-input input {
             flex: 1;
-            padding: 18px 20px;
-            border-radius: 14px;
+            padding: 16px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             background: rgba(15, 23, 42, 0.6);
             color: var(--text-primary);
-            font-size: 1.05rem;
+            font-size: 1rem;
             transition: all 0.3s;
         }
         
@@ -350,43 +329,31 @@
             background: var(--primary-gradient);
             color: white;
             border: none;
-            border-radius: 14px;
-            padding: 0 35px;
+            border-radius: 12px;
+            padding: 0 25px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.2s;
+            font-size: 1rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            min-width: 100px;
         }
         
-        .chat-input button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-        
-        /* News Alerts - Enhanced */
+        /* News Alerts - Mobile Enhanced */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
         
         .news-card {
             background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 14px;
+            padding: 18px;
             border: 1px solid var(--border-color);
-            transition: all 0.3s;
             position: relative;
             overflow: hidden;
-        }
-        
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border-color: rgba(96, 165, 250, 0.3);
         }
         
         .news-card::before {
@@ -411,16 +378,16 @@
         }
         
         .news-content {
-            padding-left: 15px;
+            padding-left: 12px;
         }
         
         .news-title {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .news-time {
@@ -434,17 +401,18 @@
         
         .news-body {
             color: var(--text-secondary);
-            margin-top: 15px;
-            line-height: 1.7;
+            margin-top: 12px;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
         
         .impact-tag {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 5px 15px;
+            top: 15px;
+            right: 15px;
+            padding: 5px 12px;
             border-radius: 20px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
         }
         
@@ -463,29 +431,23 @@
             color: var(--success);
         }
         
-        /* Profit Calculator - Enhanced */
+        /* Profit Calculator - Mobile Enhanced */
         .calculator-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-        
-        @media (max-width: 900px) {
-            .calculator-container {
-                grid-template-columns: 1fr;
-            }
+            grid-template-columns: 1fr;
+            gap: 20px;
         }
         
         .calculator-inputs {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
         
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         
         .input-group label {
@@ -495,12 +457,12 @@
         }
         
         .input-group input, .input-group select {
-            padding: 16px;
+            padding: 14px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             background: rgba(15, 23, 42, 0.6);
             color: var(--text-primary);
-            font-size: 1.05rem;
+            font-size: 1rem;
             transition: all 0.3s;
         }
         
@@ -512,23 +474,23 @@
         
         .calculator-results {
             background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 14px;
+            padding: 20px;
             border: 1px solid var(--border-color);
         }
         
         .result-card {
             background: rgba(30, 41, 59, 0.6);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 15px;
             border: 1px solid var(--border-color);
         }
         
         .result-value {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            margin: 10px 0;
+            margin: 8px 0;
             font-family: 'JetBrains Mono', monospace;
         }
         
@@ -545,41 +507,36 @@
             font-size: 0.95rem;
         }
         
-        /* Sentiment Scanner - Enhanced */
+        /* Sentiment Scanner - Mobile Enhanced */
         .sentiment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: 1fr;
+            gap: 18px;
         }
         
         .sentiment-card {
             background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: 14px;
+            padding: 20px;
             border: 1px solid var(--border-color);
-            transition: all 0.3s;
-        }
-        
-        .sentiment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
         .pair-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .pair-name {
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
         
         .price-change {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .positive {
@@ -591,135 +548,113 @@
         }
         
         .sentiment-bar {
-            height: 12px;
+            height: 10px;
             background: rgba(239, 68, 68, 0.3);
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            margin: 20px 0;
+            margin: 15px 0;
             position: relative;
         }
         
         .bullish {
             height: 100%;
             background: var(--success);
-            border-radius: 10px 0 0 10px;
+            border-radius: 8px 0 0 8px;
             position: absolute;
             left: 0;
             top: 0;
-            transition: width 1.5s ease;
         }
         
         .sentiment-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            margin-top: 15px;
+            margin-top: 12px;
         }
         
-        /* Trade Journal - Enhanced */
+        /* Trade Journal - Mobile Enhanced */
         .journal-container {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 30px;
-        }
-        
-        @media (max-width: 1100px) {
-            .journal-container {
-                grid-template-columns: 1fr;
-            }
+            grid-template-columns: 1fr;
+            gap: 25px;
         }
         
         .trade-form-panel {
             background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: 14px;
+            padding: 20px;
             border: 1px solid var(--border-color);
         }
         
         .trade-form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 15px;
         }
         
         .form-actions {
             display: flex;
-            gap: 15px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 15px;
+            flex-direction: column;
+        }
+        
+        .save-btn, .clear-btn {
+            padding: 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+            border: none;
+            width: 100%;
         }
         
         .save-btn {
             background: var(--primary-gradient);
             color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.05rem;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-        
-        .save-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
         
         .clear-btn {
             background: rgba(71, 85, 105, 0.3);
             color: var(--text-primary);
-            border: none;
-            padding: 15px 25px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.05rem;
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-        
-        .clear-btn:hover {
-            background: rgba(100, 116, 139, 0.4);
         }
         
         .trade-table-container {
             background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 25px;
+            border-radius: 14px;
+            padding: 20px;
             border: 1px solid var(--border-color);
-            max-height: 600px;
-            overflow-y: auto;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .trade-table {
             width: 100%;
+            min-width: 600px;
             border-collapse: separate;
             border-spacing: 0;
         }
         
         .trade-table th {
             background: rgba(30, 41, 59, 0.8);
-            padding: 15px 20px;
+            padding: 12px 15px;
             text-align: left;
             font-weight: 600;
             position: sticky;
-            top: 0;
-            z-index: 10;
+            left: 0;
+            font-size: 0.9rem;
         }
         
         .trade-table td {
-            padding: 15px 20px;
+            padding: 12px 15px;
             border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            font-size: 0.9rem;
         }
         
         .trade-table tr:last-child td {
@@ -754,17 +689,17 @@
         
         .action-cell {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         
         .edit-btn, .delete-btn {
-            padding: 8px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.2s;
         }
         
@@ -774,80 +709,158 @@
             border: none;
         }
         
-        .edit-btn:hover {
-            background: rgba(59, 130, 246, 0.3);
-        }
-        
         .delete-btn {
             background: rgba(239, 68, 68, 0.2);
             color: var(--danger);
             border: none;
         }
         
-        .delete-btn:hover {
-            background: rgba(239, 68, 68, 0.3);
-        }
-        
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 0 30px;
+            padding: 30px 0 20px;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             border-top: 1px solid rgba(71, 85, 105, 0.3);
-            margin-top: 40px;
+            margin-top: 30px;
         }
         
         .footer-links {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 12px;
         }
         
         .footer-link {
             color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s;
+            font-size: 0.9rem;
         }
         
-        .footer-link:hover {
-            color: var(--text-primary);
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .tab-btn {
-                width: 100%;
+        @media (min-width: 768px) {
+            .logo h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .tabs {
                 justify-content: center;
+                width: 100%;
             }
             
-            .tab-title {
-                font-size: 1.8rem;
+            .news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             }
             
-            .calculator-container, .journal-container {
-                grid-template-columns: 1fr;
+            .calculator-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .calculator-inputs {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .sentiment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .journal-container {
+                grid-template-columns: 1fr 1.5fr;
             }
             
             .trade-form-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             }
             
             .form-actions {
-                flex-direction: column;
+                flex-direction: row;
             }
         }
         
-        /* Animations */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        @media (max-width: 767px) {
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .tabs-container {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--bg-card);
+                z-index: 900;
+                padding: 10px;
+                margin-bottom: 0;
+                transform: translateY(100%);
+                transition: transform 0.3s ease;
+                border-top: 1px solid var(--border-color);
+            }
+            
+            .tabs-container.active {
+                transform: translateY(0);
+            }
+            
+            .tabs {
+                width: 100%;
+                padding: 0;
+            }
+            
+            .tab-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 12px 10px;
+                font-size: 0.85rem;
+            }
+            
+            .tab-btn i {
+                font-size: 1.1rem;
+            }
+            
+            .tab-btn span {
+                display: none;
+            }
+            
+            .tab-indicator {
+                display: none;
+            }
         }
         
-        .floating {
-            animation: float 4s ease-in-out infinite;
+        /* Tablet Styles */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .calculator-inputs {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: row;
+            }
         }
     </style>
 </head>
@@ -855,22 +868,22 @@
     <div class="container">
         <header>
             <div class="header-gradient"></div>
-            <div class="logo floating">
+            <div class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-brain"></i>
                 </div>
                 <h1>PipSense Pro</h1>
             </div>
-            <p class="tagline">Advanced AI-driven trading intelligence for professional forex traders</p>
+            <p class="tagline">AI-powered trading intelligence for professionals</p>
         </header>
         
-        <div class="tabs-container">
+        <div class="tabs-container" id="tabs-container">
             <div class="tabs">
-                <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> AI ChartBot</button>
-                <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> News Alerts</button>
-                <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> Profit Calculator</button>
-                <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> Sentiment Scanner</button>
-                <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> Trade Journal</button>
+                <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> <span>ChartBot</span></button>
+                <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> <span>News</span></button>
+                <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> <span>Calculator</span></button>
+                <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> <span>Sentiment</span></button>
+                <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></button>
             </div>
             <div class="tab-indicator" style="width: 170px; left: 50px;"></div>
         </div>
@@ -883,7 +896,7 @@
                 </div>
                 <div>
                     <h2 class="tab-title">AI ChartBot</h2>
-                    <p class="tab-subtitle">Proprietary market analysis AI - Ask trading strategy questions</p>
+                    <p class="tab-subtitle">Proprietary market analysis AI</p>
                 </div>
             </div>
             
@@ -893,7 +906,7 @@
                         <div class="message-header ai-header">
                             <i class="fas fa-robot"></i> PipSense AI
                         </div>
-                        <p>Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies. Try: "Technical analysis for EURUSD" or "Risk management for GBPJPY positions"</p>
+                        <p>Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies.</p>
                     </div>
                 </div>
                 <div class="chat-input">
@@ -910,45 +923,45 @@
                     <i class="fas fa-bell"></i>
                 </div>
                 <div>
-                    <h2 class="tab-title">Market News Alerts</h2>
-                    <p class="tab-subtitle">Real-time economic events with AI-powered impact analysis</p>
+                    <h2 class="tab-title">Market News</h2>
+                    <p class="tab-subtitle">Real-time economic events</p>
                 </div>
             </div>
             
             <div class="news-grid">
                 <div class="news-card high-impact">
-                    <div class="impact-tag high-tag">HIGH IMPACT</div>
+                    <div class="impact-tag high-tag">HIGH</div>
                     <div class="news-content">
                         <h3 class="news-title"><i class="fas fa-exclamation-circle"></i> FOMC Statement</h3>
                         <div class="news-time">Today, 18:00 GMT</div>
-                        <p class="news-body">Federal Reserve expected to maintain rates but signal future hikes. USD volatility expected. Watch for divergence from market expectations.</p>
+                        <p class="news-body">Federal Reserve expected to maintain rates. USD volatility expected.</p>
                     </div>
                 </div>
                 
                 <div class="news-card medium-impact">
-                    <div class="impact-tag medium-tag">MEDIUM IMPACT</div>
+                    <div class="impact-tag medium-tag">MEDIUM</div>
                     <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-chart-line"></i> Eurozone CPI Flash</h3>
+                        <h3 class="news-title"><i class="fas fa-chart-line"></i> Eurozone CPI</h3>
                         <div class="news-time">Today, 09:00 GMT</div>
-                        <p class="news-body">Inflation expected to ease to 5.1% from 5.3%. Core inflation remains sticky at 5.0%. EUR pairs may see moderate movement.</p>
+                        <p class="news-body">Inflation expected to ease to 5.1%. EUR pairs may see movement.</p>
                     </div>
                 </div>
                 
                 <div class="news-card low-impact">
-                    <div class="impact-tag low-tag">LOW IMPACT</div>
+                    <div class="impact-tag low-tag">LOW</div>
                     <div class="news-content">
                         <h3 class="news-title"><i class="fas fa-building"></i> UK Retail Sales</h3>
                         <div class="news-time">Tomorrow, 06:00 GMT</div>
-                        <p class="news-body">Expected to show 0.3% MoM growth after previous -1.2% decline. Minor impact on GBP pairs expected.</p>
+                        <p class="news-body">Expected to show 0.3% MoM growth after previous decline.</p>
                     </div>
                 </div>
                 
                 <div class="news-card high-impact">
-                    <div class="impact-tag high-tag">HIGH IMPACT</div>
+                    <div class="impact-tag high-tag">HIGH</div>
                     <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-landmark"></i> BoJ Interest Rate Decision</h3>
+                        <h3 class="news-title"><i class="fas fa-landmark"></i> BoJ Rate Decision</h3>
                         <div class="news-time">Tomorrow, 03:00 GMT</div>
-                        <p class="news-body">Bank of Japan expected to maintain ultra-loose policy. Watch for yield curve control adjustments. JPY pairs at risk of high volatility.</p>
+                        <p class="news-body">Bank of Japan expected to maintain policy. JPY pairs at risk of volatility.</p>
                     </div>
                 </div>
             </div>
@@ -962,7 +975,7 @@
                 </div>
                 <div>
                     <h2 class="tab-title">Position Calculator</h2>
-                    <p class="tab-subtitle">Advanced risk management with AI-optimized position sizing</p>
+                    <p class="tab-subtitle">Risk management with position sizing</p>
                 </div>
             </div>
             
@@ -1036,8 +1049,8 @@
                     <i class="fas fa-chart-pie"></i>
                 </div>
                 <div>
-                    <h2 class="tab-title">Market Sentiment Scanner</h2>
-                    <p class="tab-subtitle">Real-time trader positioning and AI sentiment analysis</p>
+                    <h2 class="tab-title">Market Sentiment</h2>
+                    <p class="tab-subtitle">Trader positioning and sentiment analysis</p>
                 </div>
             </div>
             
@@ -1054,7 +1067,6 @@
                         <span>🟥 32% Bearish</span>
                         <span>🟩 68% Bullish</span>
                     </div>
-                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Bullish momentum strengthening. Watch 1.1100 resistance.</p>
                 </div>
                 
                 <div class="sentiment-card">
@@ -1069,7 +1081,6 @@
                         <span>🟥 48% Bearish</span>
                         <span>🟩 52% Bullish</span>
                     </div>
-                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Neutral bias. Key support at 1.2750.</p>
                 </div>
                 
                 <div class="sentiment-card">
@@ -1084,7 +1095,6 @@
                         <span>🟥 54% Bearish</span>
                         <span>🟩 46% Bullish</span>
                     </div>
-                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Bearish pressure increasing. BoJ intervention risks.</p>
                 </div>
                 
                 <div class="sentiment-card">
@@ -1099,7 +1109,6 @@
                         <span>🟥 61% Bearish</span>
                         <span>🟩 39% Bullish</span>
                     </div>
-                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Commodity pressure driving bearish sentiment.</p>
                 </div>
             </div>
         </div>
@@ -1112,13 +1121,13 @@
                 </div>
                 <div>
                     <h2 class="tab-title">Trade Journal</h2>
-                    <p class="tab-subtitle">Track, analyze, and optimize your trading performance</p>
+                    <p class="tab-subtitle">Track and analyze your trading performance</p>
                 </div>
             </div>
             
             <div class="journal-container">
                 <div class="trade-form-panel">
-                    <h3 style="margin-bottom: 20px; font-size: 1.4rem;">New Trade Entry</h3>
+                    <h3 style="margin-bottom: 15px; font-size: 1.2rem;">New Trade</h3>
                     <form id="trade-form">
                         <div class="trade-form-grid">
                             <div class="input-group">
@@ -1150,11 +1159,6 @@
                             </div>
                             
                             <div class="input-group">
-                                <label for="trade-date">Date</label>
-                                <input type="date" id="trade-date" required>
-                            </div>
-                            
-                            <div class="input-group">
                                 <label for="trade-notes">Notes</label>
                                 <textarea id="trade-notes" rows="3" placeholder="Strategy, emotions, lessons..."></textarea>
                             </div>
@@ -1162,22 +1166,21 @@
                         
                         <div class="form-actions">
                             <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
-                            <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear Form</button>
+                            <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear</button>
                         </div>
                     </form>
                 </div>
                 
                 <div class="trade-table-container">
-                    <h3 style="margin-bottom: 20px; font-size: 1.4rem;">Trade History</h3>
+                    <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Trade History</h3>
                     <table class="trade-table">
                         <thead>
                             <tr>
                                 <th>Pair</th>
-                                <th>Direction</th>
+                                <th>Dir</th>
                                 <th>Entry</th>
                                 <th>Exit</th>
                                 <th>P/L</th>
-                                <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -1187,8 +1190,7 @@
                                 <td class="buy-cell">BUY</td>
                                 <td>1.0950</td>
                                 <td>1.1025</td>
-                                <td class="profit-cell">+$750.00</td>
-                                <td>2023-10-15</td>
+                                <td class="profit-cell">+$750</td>
                                 <td class="action-cell">
                                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                                     <button class="delete-btn"><i class="fas fa-trash"></i></button>
@@ -1199,8 +1201,7 @@
                                 <td class="sell-cell">SELL</td>
                                 <td>149.80</td>
                                 <td>150.20</td>
-                                <td class="loss-cell">-$400.00</td>
-                                <td>2023-10-16</td>
+                                <td class="loss-cell">-$400</td>
                                 <td class="action-cell">
                                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                                     <button class="delete-btn"><i class="fas fa-trash"></i></button>
@@ -1211,8 +1212,7 @@
                                 <td class="buy-cell">BUY</td>
                                 <td>1.2600</td>
                                 <td>1.2720</td>
-                                <td class="profit-cell">+$1,200.00</td>
-                                <td>2023-10-17</td>
+                                <td class="profit-cell">+$1200</td>
                                 <td class="action-cell">
                                     <button class="edit-btn"><i class="fas fa-edit"></i></button>
                                     <button class="delete-btn"><i class="fas fa-trash"></i></button>
@@ -1225,18 +1225,22 @@
         </div>
         
         <footer>
-            <p>PipSense Pro v1.5 | © 2023 QuantSense Analytics. All rights reserved.</p>
+            <p>PipSense Pro v1.5 | © 2023 QuantSense Analytics</p>
             <div class="footer-links">
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <a href="#" class="footer-link">API Documentation</a>
+                <a href="#" class="footer-link">Privacy</a>
+                <a href="#" class="footer-link">Terms</a>
                 <a href="#" class="footer-link">Support</a>
             </div>
         </footer>
     </div>
 
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <script>
-        // Tab switching functionality with indicator animation
+        // Tab switching functionality
         document.querySelectorAll('.tab-btn').forEach(button => {
             button.addEventListener('click', () => {
                 // Remove active class from all buttons
@@ -1245,30 +1249,32 @@
                 // Add active class to clicked button
                 button.classList.add('active');
                 
-                // Update tab indicator position
-                const tabIndicator = document.querySelector('.tab-indicator');
-                const buttonRect = button.getBoundingClientRect();
-                const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
-                
-                tabIndicator.style.width = `${buttonRect.width}px`;
-                tabIndicator.style.left = `${buttonRect.left - containerRect.left}px`;
-                
                 // Hide all tab content
                 document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 
                 // Show corresponding content
                 const tabId = button.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
+                
+                // Close mobile menu if open
+                document.getElementById('tabs-container').classList.remove('active');
             });
         });
         
-        // Initialize tab indicator position
-        const firstButton = document.querySelector('.tab-btn.active');
-        if (firstButton) {
-            const buttonRect = firstButton.getBoundingClientRect();
-            const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
-            document.querySelector('.tab-indicator').style.left = `${buttonRect.left - containerRect.left}px`;
-        }
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('tabs-container').classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const tabsContainer = document.getElementById('tabs-container');
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            
+            if (!tabsContainer.contains(e.target) && !menuBtn.contains(e.target)) {
+                tabsContainer.classList.remove('active');
+            }
+        });
         
         // AI ChartBot functionality
         const chatBox = document.getElementById('chat-box');
@@ -1310,34 +1316,23 @@
             // Enhanced rule-based AI responses
             if (message.includes('eurusd') || message.includes('eur/usd')) {
                 if (message.includes('buy') || message.includes('long')) {
-                    response = "Based on technical analysis, EUR/USD is showing strong bullish momentum. Price has broken above the 1.1000 psychological level. RSI is at 65, not yet overbought. Next resistance at 1.1120. Fundamental outlook: ECB hawkish stance supporting EUR. Trade idea: Buy at 1.1050 with stop loss at 1.0980 and take profit at 1.1120.";
-                    analysisType = "Technical & Fundamental Analysis";
+                    response = "EUR/USD shows bullish momentum. Buy at 1.1050 with stop loss at 1.0980 and take profit at 1.1120.";
+                    analysisType = "Trade Idea";
                 } else if (message.includes('sell') || message.includes('short')) {
-                    response = "EUR/USD is approaching key resistance at 1.1100. MACD shows bearish divergence on the 4H chart. Fundamental risks: US CPI data could strengthen USD. Trade idea: Short at 1.1090 with stop loss at 1.1140 and take profit at 1.0990. Risk: 50 pips, Reward: 100 pips.";
-                    analysisType = "Risk Analysis";
-                } else if (message.includes('outlook') || message.includes('forecast')) {
-                    response = "EUR/USD 1-Week Outlook: Bullish bias. Key drivers: FOMC decision, Eurozone CPI data. Technical targets: Upside 1.1120, Downside 1.0950. Position traders should consider buying dips with appropriate risk management.";
-                    analysisType = "Market Outlook";
+                    response = "EUR/USD approaching key resistance at 1.1100. Short at 1.1090 with stop loss at 1.1140.";
+                    analysisType = "Trade Idea";
                 } else {
-                    response = "EUR/USD Analysis: Currently trading at 1.1050. Daily chart shows ascending triangle pattern. Support at 1.0950 (200 DMA), resistance at 1.1100. Volume profile shows strong interest at 1.1000. Market sentiment: 68% bullish. AI recommendation: Wait for breakout confirmation before entering new positions.";
-                    analysisType = "Comprehensive Analysis";
+                    response = "EUR/USD trading at 1.1050. Support at 1.0950, resistance at 1.1100. Market sentiment: 68% bullish.";
+                    analysisType = "Market Analysis";
                 }
             } else if (message.includes('gbpjpy') || message.includes('gbp/jpy')) {
-                if (message.includes('volatility')) {
-                    response = "GBP/JPY currently experiencing high volatility (ATR 150 pips). Key drivers: BoJ intervention risks, UK political uncertainty. Technical: Trading in 180.00-183.50 range. Options market shows increased demand for volatility protection. Risk management: Reduce position size by 30% and widen stop losses.";
-                    analysisType = "Volatility Analysis";
-                } else {
-                    response = "GBP/JPY Analysis: Trading at 182.00. Bullish momentum on daily chart but overextended. RSI at 72 indicating overbought conditions. Support at 180.50 (50% Fib), resistance at 183.50. Sentiment: 54% bullish. AI recommendation: Take partial profits at current levels and trail stop loss.";
-                    analysisType = "Technical Analysis";
-                }
+                response = "GBP/JPY currently at 182.00. Support at 180.50, resistance at 183.50. Sentiment: 54% bullish.";
+                analysisType = "Technical Analysis";
             } else if (message.includes('risk') || message.includes('management')) {
-                response = "Risk Management Strategy: 1) Never risk more than 1-2% of account per trade. 2) Maintain risk-reward ratio of at least 1:2. 3) Use stop losses based on technical levels. 4) Diversify across uncorrelated pairs. 5) Adjust position size based on volatility (use ATR). 6) Regularly review and journal trades.";
+                response = "Risk Management: 1) Risk 1-2% per trade 2) Maintain 1:2 risk-reward ratio 3) Use stop losses 4) Diversify";
                 analysisType = "Risk Management";
-            } else if (message.includes('gold') || message.includes('xau')) {
-                response = "Gold (XAU/USD) Analysis: Trading at $1920. Inverse correlation with USD and real yields. Technical: Testing 200 DMA at $1915. Break above $1935 could signal bullish reversal. Fundamental: Safe-haven demand amid geopolitical tensions. ETF holdings increasing. AI recommendation: Accumulate on dips below $1900 with stop loss at $1880.";
-                analysisType = "Commodity Analysis";
             } else {
-                response = "I've analyzed the current market conditions using our proprietary algorithms. Technical indicators show mixed signals across major pairs. For more accurate advice, please specify a currency pair and your trading bias (buy/sell). Remember: 'The trend is your friend until it ends.' Always use proper risk management.";
+                response = "I've analyzed current market conditions. For specific advice, mention a currency pair and your trading bias.";
                 analysisType = "Market Analysis";
             }
             
@@ -1407,10 +1402,6 @@
         
         // Initialize calculator
         calculateProfit();
-        
-        // Set today's date as default in trade journal
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('trade-date').value = today;
     </script>
 </body>
 </html>
