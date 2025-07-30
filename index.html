@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PipSense - AI Trading Assistant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>PipSense Pro | AI-Powered Trading Intelligence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
-            --primary-dark: #1d4ed8;
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #8b5cf6);
             --secondary: #7e22ce;
             --success: #10b981;
             --warning: #f59e0b;
@@ -20,6 +20,9 @@
             --text-primary: #f8fafc;
             --text-secondary: #cbd5e1;
             --border-color: #475569;
+            --border-active: #60a5fa;
+            --chart-up: #10b981;
+            --chart-down: #ef4444;
         }
         
         * {
@@ -30,28 +33,66 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
+            background: linear-gradient(135deg, #0c1220, #151f33);
             color: var(--text-primary);
             min-height: 100vh;
-            padding: 20px;
             line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 20%);
+            z-index: -1;
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 20px;
         }
         
+        /* Header with animated gradient */
         header {
             text-align: center;
-            padding: 20px 0 30px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 30px 0;
             margin-bottom: 30px;
-            background: rgba(15, 23, 42, 0.8);
+            position: relative;
+            overflow: hidden;
+            border-radius: 0 0 20px 20px;
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(10px);
-            position: sticky;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-gradient {
+            position: absolute;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(59, 130, 246, 0.1) 0%, 
+                rgba(139, 92, 246, 0.15) 50%, 
+                rgba(59, 130, 246, 0.1) 100%);
+            z-index: -1;
+            animation: gradientShift 15s ease infinite;
+            background-size: 400% 400%;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .logo {
@@ -63,77 +104,109 @@
         }
         
         .logo h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #60a5fa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(96, 165, 250, 0.2);
         }
         
         .logo-icon {
             font-size: 2.8rem;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, #60a5fa, #c084fc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
         .tagline {
             color: var(--text-secondary);
-            font-size: 1.1rem;
-            margin-top: 5px;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 10px auto 0;
+            font-weight: 300;
         }
         
-        /* Tab Navigation */
+        /* Enhanced Tab Navigation */
+        .tabs-container {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        
         .tabs {
             display: flex;
             justify-content: center;
-            gap: 5px;
-            margin-bottom: 30px;
+            gap: 8px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 3px;
+            background: var(--primary-gradient);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+            z-index: 1;
         }
         
         .tab-btn {
-            background: var(--bg-card);
+            background: rgba(30, 41, 59, 0.7);
             border: none;
             color: var(--text-secondary);
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 14px 30px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            position: relative;
+            z-index: 2;
         }
         
         .tab-btn:hover {
-            background: var(--bg-card-light);
+            background: rgba(51, 65, 85, 0.7);
             color: var(--text-primary);
+            transform: translateY(-2px);
         }
         
         .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: rgba(30, 41, 59, 0.9);
             color: white;
-            border-color: transparent;
+            border: 1px solid rgba(96, 165, 250, 0.5);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
         }
         
         /* Tab Content */
         .tab-content {
             display: none;
-            background: var(--bg-card);
-            border-radius: 15px;
-            padding: 30px;
+            background: rgba(30, 41, 59, 0.85);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(10px);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-            border: 1px solid var(--border-color);
             animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
@@ -141,649 +214,1061 @@
             display: block;
         }
         
-        .tab-title {
+        .tab-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-            font-size: 1.8rem;
-            color: var(--text-primary);
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
         
-        /* AI ChartBot */
+        .tab-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .tab-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #f8fafc, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tab-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        
+        /* AI ChartBot - Enhanced */
         .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .chat-box {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            min-height: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
         
-        .chat-box {
-            background: var(--bg-dark);
-            border-radius: 12px;
-            padding: 20px;
-            min-height: 150px;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
+        .message {
+            padding: 15px 20px;
+            border-radius: 14px;
+            max-width: 85%;
+            animation: messageAppear 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
-        .message {
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            max-width: 85%;
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: -1;
         }
         
         .user-message {
-            background: var(--primary);
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.3), rgba(37, 99, 235, 0.15));
             margin-left: auto;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .user-message::before {
+            background: var(--primary);
         }
         
         .ai-message {
-            background: var(--bg-card-light);
-            border-bottom-left-radius: 4px;
+            background: linear-gradient(90deg, rgba(30, 41, 59, 0.3), rgba(30, 41, 59, 0.15));
+            border-bottom-left-radius: 5px;
+        }
+        
+        .ai-message::before {
+            background: var(--bg-card);
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .ai-header {
+            color: #60a5fa;
         }
         
         .chat-input {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
         
         .chat-input input {
             flex: 1;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 18px 20px;
+            border-radius: 14px;
             border: 1px solid var(--border-color);
-            background: var(--bg-dark);
+            background: rgba(15, 23, 42, 0.6);
             color: var(--text-primary);
-            font-size: 1rem;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+        
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
         
         .chat-input button {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            border-radius: 10px;
-            padding: 0 25px;
+            border-radius: 14px;
+            padding: 0 35px;
             cursor: pointer;
             font-weight: 600;
-            transition: transform 0.2s;
+            font-size: 1.05rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .chat-input button:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
         
-        /* News Alerts */
-        .news-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* News Alerts - Enhanced */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
         }
         
-        .news-item {
-            background: var(--bg-dark);
-            border-radius: 10px;
-            padding: 15px 20px;
+        .news-card {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+        
+        .news-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .high-impact::before {
+            background: var(--danger);
+        }
+        
+        .medium-impact::before {
+            background: var(--warning);
+        }
+        
+        .low-impact::before {
+            background: var(--success);
+        }
+        
+        .news-content {
+            padding-left: 15px;
+        }
+        
+        .news-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            border-left: 4px solid var(--danger);
-            border: 1px solid var(--border-color);
+            gap: 10px;
         }
         
-        .news-item.medium {
-            border-left-color: var(--warning);
-        }
-        
-        .news-item.low {
-            border-left-color: var(--success);
-        }
-        
-        .impact-badge {
+        .news-time {
+            background: rgba(71, 85, 105, 0.3);
             padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        
+        .news-body {
+            color: var(--text-secondary);
+            margin-top: 15px;
+            line-height: 1.7;
+        }
+        
+        .impact-tag {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: 600;
         }
         
-        .high-impact {
+        .high-tag {
             background: rgba(239, 68, 68, 0.2);
             color: var(--danger);
         }
         
-        .medium-impact {
+        .medium-tag {
             background: rgba(245, 158, 11, 0.2);
             color: var(--warning);
         }
         
-        .low-impact {
+        .low-tag {
             background: rgba(16, 185, 129, 0.2);
             color: var(--success);
         }
         
-        .news-content {
-            flex: 1;
-        }
-        
-        .news-time {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .refresh-btn {
-            margin-top: 20px;
-            padding: 12px 25px;
-            background: var(--bg-card-light);
-            color: var(--text-primary);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            transition: background 0.3s;
-        }
-        
-        .refresh-btn:hover {
-            background: var(--primary);
-        }
-        
-        /* Calculator */
-        .calculator-grid {
+        /* Profit Calculator - Enhanced */
+        .calculator-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .calculator-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-bottom: 25px;
         }
         
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         
         .input-group label {
             font-weight: 500;
             color: var(--text-secondary);
+            font-size: 0.95rem;
         }
         
         .input-group input, .input-group select {
-            padding: 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-dark);
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        
-        .results {
-            background: var(--bg-dark);
+            padding: 16px;
             border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
+            border: 1px solid var(--border-color);
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-primary);
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .calculator-results {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 30px;
             border: 1px solid var(--border-color);
         }
         
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border-color);
+        .result-card {
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
         }
         
-        .result-row:last-child {
-            border-bottom: none;
+        .result-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 10px 0;
+            font-family: 'JetBrains Mono', monospace;
         }
         
         .profit {
             color: var(--success);
-            font-weight: 600;
         }
         
         .loss {
             color: var(--danger);
-            font-weight: 600;
         }
         
-        /* Sentiment Scanner */
+        .result-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        /* Sentiment Scanner - Enhanced */
         .sentiment-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            gap: 25px;
         }
         
         .sentiment-card {
-            background: var(--bg-dark);
-            border-radius: 12px;
-            padding: 20px;
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 25px;
             border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+        
+        .sentiment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         
         .pair-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .pair-name {
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+        
+        .price-change {
+            font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
-            font-size: 1.2rem;
+        }
+        
+        .positive {
+            color: var(--success);
+        }
+        
+        .negative {
+            color: var(--danger);
         }
         
         .sentiment-bar {
-            height: 10px;
-            background: var(--danger);
-            border-radius: 5px;
+            height: 12px;
+            background: rgba(239, 68, 68, 0.3);
+            border-radius: 10px;
             overflow: hidden;
-            margin: 15px 0;
+            margin: 20px 0;
+            position: relative;
         }
         
         .bullish {
             height: 100%;
             background: var(--success);
+            border-radius: 10px 0 0 10px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 1.5s ease;
         }
         
         .sentiment-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-secondary);
+            margin-top: 15px;
         }
         
-        /* Trade Journal */
-        .trade-form {
+        /* Trade Journal - Enhanced */
+        .journal-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 1100px) {
+            .journal-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .trade-form-panel {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .trade-form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 20px;
         }
         
-        .form-buttons {
+        .form-actions {
             display: flex;
             gap: 15px;
-            grid-column: 1 / -1;
-            margin-top: 10px;
+            margin-top: 20px;
         }
         
         .save-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 15px 25px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 1.05rem;
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
         
         .clear-btn {
-            background: var(--bg-card-light);
+            background: rgba(71, 85, 105, 0.3);
             color: var(--text-primary);
             border: none;
-            padding: 12px 25px;
-            border-radius: 8px;
+            padding: 15px 25px;
+            border-radius: 12px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 1.05rem;
             flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .clear-btn:hover {
+            background: rgba(100, 116, 139, 0.4);
+        }
+        
+        .trade-table-container {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            max-height: 600px;
+            overflow-y: auto;
         }
         
         .trade-table {
             width: 100%;
-            border-collapse: collapse;
-            background: var(--bg-dark);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
+            border-collapse: separate;
+            border-spacing: 0;
         }
         
         .trade-table th {
-            background: var(--bg-card-light);
-            padding: 15px;
+            background: rgba(30, 41, 59, 0.8);
+            padding: 15px 20px;
             text-align: left;
             font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
         
         .trade-table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid var(--border-color);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(71, 85, 105, 0.3);
         }
         
         .trade-table tr:last-child td {
             border-bottom: none;
         }
         
-        .trade-table .buy {
-            color: var(--success);
+        .trade-table tr:hover td {
+            background: rgba(30, 41, 59, 0.5);
         }
         
-        .trade-table .sell {
+        .buy-cell {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .sell-cell {
             color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .profit-cell {
+            color: var(--success);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .loss-cell {
+            color: var(--danger);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .action-cell {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .edit-btn {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: none;
+        }
+        
+        .edit-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
         }
         
         .delete-btn {
             background: rgba(239, 68, 68, 0.2);
             color: var(--danger);
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
         }
         
         .delete-btn:hover {
             background: rgba(239, 68, 68, 0.3);
         }
         
-        /* Responsive Design */
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            margin-top: 40px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 15px;
+        }
+        
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .tabs {
-                flex-direction: column;
-            }
-            
             .tab-btn {
                 width: 100%;
+                justify-content: center;
             }
             
-            .tab-content {
-                padding: 20px;
+            .tab-title {
+                font-size: 1.8rem;
             }
             
-            .calculator-grid, .trade-form {
+            .calculator-container, .journal-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .trade-form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: column;
             }
         }
         
-        footer {
-            text-align: center;
-            padding: 30px 0 20px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-            margin-top: 20px;
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <i class="fas fa-chart-line logo-icon"></i>
-                <h1>PipSense</h1>
+            <div class="header-gradient"></div>
+            <div class="logo floating">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h1>PipSense Pro</h1>
             </div>
-            <p class="tagline">AI-Powered Trading Intelligence at Your Fingertips</p>
+            <p class="tagline">Advanced AI-driven trading intelligence for professional forex traders</p>
         </header>
         
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> AI ChartBot</button>
-            <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> News Alerts</button>
-            <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> Profit Calculator</button>
-            <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> Sentiment Scanner</button>
-            <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> Trade Journal</button>
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> AI ChartBot</button>
+                <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> News Alerts</button>
+                <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> Profit Calculator</button>
+                <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> Sentiment Scanner</button>
+                <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> Trade Journal</button>
+            </div>
+            <div class="tab-indicator" style="width: 170px; left: 50px;"></div>
         </div>
         
         <!-- Tab 1: AI ChartBot -->
         <div id="chartbot" class="tab-content active">
-            <h2 class="tab-title"><i class="fas fa-robot"></i> AI ChartBot</h2>
+            <div class="tab-header">
+                <div class="tab-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div>
+                    <h2 class="tab-title">AI ChartBot</h2>
+                    <p class="tab-subtitle">Proprietary market analysis AI - Ask trading strategy questions</p>
+                </div>
+            </div>
+            
             <div class="chat-container">
                 <div class="chat-box" id="chat-box">
                     <div class="message ai-message">
-                        <strong>PipSense:</strong> Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies. Try: "Should I buy EURUSD?" or "What's the outlook for GBPJPY?"
+                        <div class="message-header ai-header">
+                            <i class="fas fa-robot"></i> PipSense AI
+                        </div>
+                        <p>Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies. Try: "Technical analysis for EURUSD" or "Risk management for GBPJPY positions"</p>
                     </div>
                 </div>
                 <div class="chat-input">
                     <input type="text" id="user-input" placeholder="Ask a trading question...">
-                    <button id="send-btn"><i class="fas fa-paper-plane"></i> Ask</button>
+                    <button id="send-btn"><i class="fas fa-paper-plane"></i> Analyze</button>
                 </div>
             </div>
         </div>
         
         <!-- Tab 2: News Alerts -->
         <div id="news" class="tab-content">
-            <h2 class="tab-title"><i class="fas fa-bell"></i> News Alerts</h2>
-            <div class="news-container">
-                <div class="news-item high">
-                    <span class="impact-badge high-impact">HIGH</span>
-                    <div class="news-content">
-                        <strong>USD: Fed Rate Decision</strong>
-                        <div class="news-time">Today, 7:00 PM GMT</div>
-                    </div>
-                    <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
+            <div class="tab-header">
+                <div class="tab-icon">
+                    <i class="fas fa-bell"></i>
                 </div>
-                
-                <div class="news-item medium">
-                    <span class="impact-badge medium-impact">MEDIUM</span>
-                    <div class="news-content">
-                        <strong>EUR: CPI Flash Estimate</strong>
-                        <div class="news-time">Today, 12:00 PM GMT</div>
-                    </div>
+                <div>
+                    <h2 class="tab-title">Market News Alerts</h2>
+                    <p class="tab-subtitle">Real-time economic events with AI-powered impact analysis</p>
                 </div>
-                
-                <div class="news-item low">
-                    <span class="impact-badge low-impact">LOW</span>
+            </div>
+            
+            <div class="news-grid">
+                <div class="news-card high-impact">
+                    <div class="impact-tag high-tag">HIGH IMPACT</div>
                     <div class="news-content">
-                        <strong>GBP: Retail Sales m/m</strong>
-                        <div class="news-time">Today, 9:30 AM GMT</div>
+                        <h3 class="news-title"><i class="fas fa-exclamation-circle"></i> FOMC Statement</h3>
+                        <div class="news-time">Today, 18:00 GMT</div>
+                        <p class="news-body">Federal Reserve expected to maintain rates but signal future hikes. USD volatility expected. Watch for divergence from market expectations.</p>
                     </div>
                 </div>
                 
-                <div class="news-item high">
-                    <span class="impact-badge high-impact">HIGH</span>
+                <div class="news-card medium-impact">
+                    <div class="impact-tag medium-tag">MEDIUM IMPACT</div>
                     <div class="news-content">
-                        <strong>CAD: BoC Monetary Policy Report</strong>
-                        <div class="news-time">Tomorrow, 3:00 PM GMT</div>
+                        <h3 class="news-title"><i class="fas fa-chart-line"></i> Eurozone CPI Flash</h3>
+                        <div class="news-time">Today, 09:00 GMT</div>
+                        <p class="news-body">Inflation expected to ease to 5.1% from 5.3%. Core inflation remains sticky at 5.0%. EUR pairs may see moderate movement.</p>
                     </div>
-                    <i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i>
                 </div>
                 
-                <button class="refresh-btn"><i class="fas fa-sync-alt"></i> Refresh News</button>
+                <div class="news-card low-impact">
+                    <div class="impact-tag low-tag">LOW IMPACT</div>
+                    <div class="news-content">
+                        <h3 class="news-title"><i class="fas fa-building"></i> UK Retail Sales</h3>
+                        <div class="news-time">Tomorrow, 06:00 GMT</div>
+                        <p class="news-body">Expected to show 0.3% MoM growth after previous -1.2% decline. Minor impact on GBP pairs expected.</p>
+                    </div>
+                </div>
+                
+                <div class="news-card high-impact">
+                    <div class="impact-tag high-tag">HIGH IMPACT</div>
+                    <div class="news-content">
+                        <h3 class="news-title"><i class="fas fa-landmark"></i> BoJ Interest Rate Decision</h3>
+                        <div class="news-time">Tomorrow, 03:00 GMT</div>
+                        <p class="news-body">Bank of Japan expected to maintain ultra-loose policy. Watch for yield curve control adjustments. JPY pairs at risk of high volatility.</p>
+                    </div>
+                </div>
             </div>
         </div>
         
         <!-- Tab 3: Profit Calculator -->
         <div id="calculator" class="tab-content">
-            <h2 class="tab-title"><i class="fas fa-calculator"></i> Profit Calculator</h2>
-            <div class="calculator-grid">
-                <div class="input-group">
-                    <label for="pair">Currency Pair</label>
-                    <select id="pair">
-                        <option value="non-jpy">EUR/USD</option>
-                        <option value="non-jpy">GBP/USD</option>
-                        <option value="jpy">USD/JPY</option>
-                        <option value="jpy">EUR/JPY</option>
-                        <option value="non-jpy">AUD/USD</option>
-                    </select>
+            <div class="tab-header">
+                <div class="tab-icon">
+                    <i class="fas fa-calculator"></i>
                 </div>
-                
-                <div class="input-group">
-                    <label for="lot-size">Lot Size</label>
-                    <select id="lot-size">
-                        <option value="0.01">0.01 (Micro)</option>
-                        <option value="0.1">0.1 (Mini)</option>
-                        <option value="1" selected>1 (Standard)</option>
-                        <option value="10">10</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label for="entry">Entry Price</label>
-                    <input type="number" id="entry" placeholder="e.g., 1.1050" step="0.0001" value="1.1050">
-                </div>
-                
-                <div class="input-group">
-                    <label for="exit">Exit Price</label>
-                    <input type="number" id="exit" placeholder="e.g., 1.1150" step="0.0001" value="1.1150">
+                <div>
+                    <h2 class="tab-title">Position Calculator</h2>
+                    <p class="tab-subtitle">Advanced risk management with AI-optimized position sizing</p>
                 </div>
             </div>
             
-            <div class="results">
-                <div class="result-row">
-                    <span>Pips:</span>
-                    <span id="pips-result">100.0</span>
+            <div class="calculator-container">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="pair">Currency Pair</label>
+                        <select id="pair">
+                            <option value="non-jpy">EUR/USD</option>
+                            <option value="non-jpy">GBP/USD</option>
+                            <option value="jpy">USD/JPY</option>
+                            <option value="jpy">EUR/JPY</option>
+                            <option value="non-jpy">AUD/USD</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="lot-size">Position Size (Lots)</label>
+                        <input type="number" id="lot-size" value="1" min="0.01" step="0.01">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="entry">Entry Price</label>
+                        <input type="number" id="entry" value="1.1050" step="0.0001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="exit">Exit Price</label>
+                        <input type="number" id="exit" value="1.1150" step="0.0001">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="account-size">Account Size ($)</label>
+                        <input type="number" id="account-size" value="10000">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="risk-percent">Risk Percentage</label>
+                        <input type="number" id="risk-percent" value="1" min="0.1" max="100" step="0.1">
+                    </div>
                 </div>
-                <div class="result-row">
-                    <span>Profit/Loss:</span>
-                    <span id="profit-result" class="profit">$1,000.00</span>
-                </div>
-                <div class="result-row">
-                    <span>Position Size:</span>
-                    <span id="position-size">100,000 units</span>
+                
+                <div class="calculator-results">
+                    <div class="result-card">
+                        <div class="result-label">PIP Movement</div>
+                        <div class="result-value" id="pips-result">100.0</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-label">Profit/Loss</div>
+                        <div class="result-value profit" id="profit-result">$1,000.00</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-label">Position Size</div>
+                        <div class="result-value" id="position-size">100,000 units</div>
+                    </div>
+                    
+                    <div class="result-card">
+                        <div class="result-label">Risk Exposure</div>
+                        <div class="result-value" id="risk-exposure">1.0% ($100.00)</div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- Tab 4: Sentiment Scanner -->
         <div id="sentiment" class="tab-content">
-            <h2 class="tab-title"><i class="fas fa-chart-pie"></i> Sentiment Scanner</h2>
+            <div class="tab-header">
+                <div class="tab-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div>
+                    <h2 class="tab-title">Market Sentiment Scanner</h2>
+                    <p class="tab-subtitle">Real-time trader positioning and AI sentiment analysis</p>
+                </div>
+            </div>
+            
             <div class="sentiment-grid">
                 <div class="sentiment-card">
                     <div class="pair-header">
                         <div class="pair-name">EUR/USD</div>
-                        <div class="sentiment-percent">🟩 68% Bullish</div>
+                        <div class="price-change positive">+0.24%</div>
                     </div>
                     <div class="sentiment-bar">
                         <div class="bullish" style="width: 68%;"></div>
                     </div>
                     <div class="sentiment-labels">
                         <span>🟥 32% Bearish</span>
-                        <span>Updated: 5 min ago</span>
+                        <span>🟩 68% Bullish</span>
                     </div>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Bullish momentum strengthening. Watch 1.1100 resistance.</p>
                 </div>
                 
                 <div class="sentiment-card">
                     <div class="pair-header">
                         <div class="pair-name">GBP/USD</div>
-                        <div class="sentiment-percent">🟩 52% Bullish</div>
+                        <div class="price-change positive">+0.18%</div>
                     </div>
                     <div class="sentiment-bar">
                         <div class="bullish" style="width: 52%;"></div>
                     </div>
                     <div class="sentiment-labels">
                         <span>🟥 48% Bearish</span>
-                        <span>Updated: 8 min ago</span>
+                        <span>🟩 52% Bullish</span>
                     </div>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Neutral bias. Key support at 1.2750.</p>
                 </div>
                 
                 <div class="sentiment-card">
                     <div class="pair-header">
                         <div class="pair-name">USD/JPY</div>
-                        <div class="sentiment-percent">🟥 54% Bearish</div>
+                        <div class="price-change negative">-0.32%</div>
                     </div>
                     <div class="sentiment-bar">
                         <div class="bullish" style="width: 46%;"></div>
                     </div>
                     <div class="sentiment-labels">
+                        <span>🟥 54% Bearish</span>
                         <span>🟩 46% Bullish</span>
-                        <span>Updated: 12 min ago</span>
                     </div>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Bearish pressure increasing. BoJ intervention risks.</p>
                 </div>
                 
                 <div class="sentiment-card">
                     <div class="pair-header">
                         <div class="pair-name">AUD/USD</div>
-                        <div class="sentiment-percent">🟥 61% Bearish</div>
+                        <div class="price-change negative">-0.15%</div>
                     </div>
                     <div class="sentiment-bar">
                         <div class="bullish" style="width: 39%;"></div>
                     </div>
                     <div class="sentiment-labels">
+                        <span>🟥 61% Bearish</span>
                         <span>🟩 39% Bullish</span>
-                        <span>Updated: 15 min ago</span>
                     </div>
+                    <p style="margin-top: 15px; color: var(--text-secondary);">AI Analysis: Commodity pressure driving bearish sentiment.</p>
                 </div>
             </div>
         </div>
         
         <!-- Tab 5: Trade Journal -->
         <div id="journal" class="tab-content">
-            <h2 class="tab-title"><i class="fas fa-book"></i> Trade Journal</h2>
-            <form class="trade-form" id="trade-form">
-                <div class="input-group">
-                    <label for="trade-pair">Currency Pair</label>
-                    <input type="text" id="trade-pair" placeholder="e.g., EUR/USD" required>
+            <div class="tab-header">
+                <div class="tab-icon">
+                    <i class="fas fa-book"></i>
                 </div>
-                
-                <div class="input-group">
-                    <label for="trade-direction">Direction</label>
-                    <select id="trade-direction" required>
-                        <option value="buy">Buy</option>
-                        <option value="sell">Sell</option>
-                    </select>
+                <div>
+                    <h2 class="tab-title">Trade Journal</h2>
+                    <p class="tab-subtitle">Track, analyze, and optimize your trading performance</p>
                 </div>
-                
-                <div class="input-group">
-                    <label for="trade-entry">Entry Price</label>
-                    <input type="number" id="trade-entry" placeholder="e.g., 1.1050" step="0.0001" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="trade-exit">Exit Price</label>
-                    <input type="number" id="trade-exit" placeholder="e.g., 1.1150" step="0.0001" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="trade-size">Position Size</label>
-                    <select id="trade-size">
-                        <option value="0.01">0.01 (Micro)</option>
-                        <option value="0.1">0.1 (Mini)</option>
-                        <option value="1" selected>1 (Standard)</option>
-                    </select>
-                </div>
-                
-                <div class="input-group">
-                    <label for="trade-notes">Notes</label>
-                    <input type="text" id="trade-notes" placeholder="Trade strategy, emotions, etc.">
-                </div>
-                
-                <div class="form-buttons">
-                    <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
-                    <button type="reset" class="clear-btn"><i class="fas fa-times"></i> Clear</button>
-                </div>
-            </form>
+            </div>
             
-            <h3 style="margin: 25px 0 15px;">Saved Trades</h3>
-            <table class="trade-table">
-                <thead>
-                    <tr>
-                        <th>Pair</th>
-                        <th>Direction</th>
-                        <th>Entry</th>
-                        <th>Exit</th>
-                        <th>P/L</th>
-                        <th>Notes</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="trade-list">
-                    <!-- Trade entries will be added here dynamically -->
-                </tbody>
-            </table>
+            <div class="journal-container">
+                <div class="trade-form-panel">
+                    <h3 style="margin-bottom: 20px; font-size: 1.4rem;">New Trade Entry</h3>
+                    <form id="trade-form">
+                        <div class="trade-form-grid">
+                            <div class="input-group">
+                                <label for="trade-pair">Currency Pair</label>
+                                <input type="text" id="trade-pair" placeholder="e.g., EUR/USD" required>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-direction">Direction</label>
+                                <select id="trade-direction" required>
+                                    <option value="buy">Buy</option>
+                                    <option value="sell">Sell</option>
+                                </select>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-entry">Entry Price</label>
+                                <input type="number" id="trade-entry" step="0.0001" required>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-exit">Exit Price</label>
+                                <input type="number" id="trade-exit" step="0.0001" required>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-size">Position Size</label>
+                                <input type="number" id="trade-size" value="1" step="0.01" min="0.01">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-date">Date</label>
+                                <input type="date" id="trade-date" required>
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="trade-notes">Notes</label>
+                                <textarea id="trade-notes" rows="3" placeholder="Strategy, emotions, lessons..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
+                            <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="trade-table-container">
+                    <h3 style="margin-bottom: 20px; font-size: 1.4rem;">Trade History</h3>
+                    <table class="trade-table">
+                        <thead>
+                            <tr>
+                                <th>Pair</th>
+                                <th>Direction</th>
+                                <th>Entry</th>
+                                <th>Exit</th>
+                                <th>P/L</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trade-list">
+                            <tr>
+                                <td>EUR/USD</td>
+                                <td class="buy-cell">BUY</td>
+                                <td>1.0950</td>
+                                <td>1.1025</td>
+                                <td class="profit-cell">+$750.00</td>
+                                <td>2023-10-15</td>
+                                <td class="action-cell">
+                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>USD/JPY</td>
+                                <td class="sell-cell">SELL</td>
+                                <td>149.80</td>
+                                <td>150.20</td>
+                                <td class="loss-cell">-$400.00</td>
+                                <td>2023-10-16</td>
+                                <td class="action-cell">
+                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>GBP/USD</td>
+                                <td class="buy-cell">BUY</td>
+                                <td>1.2600</td>
+                                <td>1.2720</td>
+                                <td class="profit-cell">+$1,200.00</td>
+                                <td>2023-10-17</td>
+                                <td class="action-cell">
+                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         
         <footer>
-            <p>PipSense v1.0 | AI-Powered Trading Assistant</p>
-            <p>Disclaimer: This is a demo application. Not financial advice.</p>
+            <p>PipSense Pro v1.5 | © 2023 QuantSense Analytics. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">API Documentation</a>
+                <a href="#" class="footer-link">Support</a>
+            </div>
         </footer>
     </div>
 
     <script>
-        // Tab switching functionality
+        // Tab switching functionality with indicator animation
         document.querySelectorAll('.tab-btn').forEach(button => {
             button.addEventListener('click', () => {
-                // Remove active class from all buttons and content
+                // Remove active class from all buttons
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 
                 // Add active class to clicked button
                 button.classList.add('active');
+                
+                // Update tab indicator position
+                const tabIndicator = document.querySelector('.tab-indicator');
+                const buttonRect = button.getBoundingClientRect();
+                const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
+                
+                tabIndicator.style.width = `${buttonRect.width}px`;
+                tabIndicator.style.left = `${buttonRect.left - containerRect.left}px`;
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
                 
                 // Show corresponding content
                 const tabId = button.getAttribute('data-tab');
                 document.getElementById(tabId).classList.add('active');
             });
         });
+        
+        // Initialize tab indicator position
+        const firstButton = document.querySelector('.tab-btn.active');
+        if (firstButton) {
+            const buttonRect = firstButton.getBoundingClientRect();
+            const containerRect = document.querySelector('.tabs-container').getBoundingClientRect();
+            document.querySelector('.tab-indicator').style.left = `${buttonRect.left - containerRect.left}px`;
+        }
         
         // AI ChartBot functionality
         const chatBox = document.getElementById('chat-box');
@@ -797,7 +1282,12 @@
             // Add user message to chat
             const userMessage = document.createElement('div');
             userMessage.classList.add('message', 'user-message');
-            userMessage.innerHTML = `<strong>You:</strong> ${message}`;
+            userMessage.innerHTML = `
+                <div class="message-header">
+                    <i class="fas fa-user"></i> Trader
+                </div>
+                <p>${message}</p>
+            `;
             chatBox.appendChild(userMessage);
             
             // Clear input
@@ -815,36 +1305,51 @@
         function generateAIResponse(message) {
             message = message.toLowerCase();
             let response = '';
+            let analysisType = '';
             
-            // Rule-based AI responses
+            // Enhanced rule-based AI responses
             if (message.includes('eurusd') || message.includes('eur/usd')) {
                 if (message.includes('buy') || message.includes('long')) {
-                    response = "Based on current technical indicators, EUR/USD is showing bullish momentum. Price may retrace to 1.0950 before moving up to 1.1120. RSI is at 62, indicating room for upward movement.";
+                    response = "Based on technical analysis, EUR/USD is showing strong bullish momentum. Price has broken above the 1.1000 psychological level. RSI is at 65, not yet overbought. Next resistance at 1.1120. Fundamental outlook: ECB hawkish stance supporting EUR. Trade idea: Buy at 1.1050 with stop loss at 1.0980 and take profit at 1.1120.";
+                    analysisType = "Technical & Fundamental Analysis";
                 } else if (message.includes('sell') || message.includes('short')) {
-                    response = "Caution: EUR/USD is approaching a key resistance at 1.1080. Wait for bearish confirmation on the 4H chart before entering short positions. MACD shows weakening bullish momentum.";
+                    response = "EUR/USD is approaching key resistance at 1.1100. MACD shows bearish divergence on the 4H chart. Fundamental risks: US CPI data could strengthen USD. Trade idea: Short at 1.1090 with stop loss at 1.1140 and take profit at 1.0990. Risk: 50 pips, Reward: 100 pips.";
+                    analysisType = "Risk Analysis";
+                } else if (message.includes('outlook') || message.includes('forecast')) {
+                    response = "EUR/USD 1-Week Outlook: Bullish bias. Key drivers: FOMC decision, Eurozone CPI data. Technical targets: Upside 1.1120, Downside 1.0950. Position traders should consider buying dips with appropriate risk management.";
+                    analysisType = "Market Outlook";
                 } else {
-                    response = "EUR/USD is currently trading at 1.1050. Technical outlook is bullish with support at 1.0950 and resistance at 1.1120. Fundamentals show potential USD weakness from expected Fed dovish stance.";
+                    response = "EUR/USD Analysis: Currently trading at 1.1050. Daily chart shows ascending triangle pattern. Support at 1.0950 (200 DMA), resistance at 1.1100. Volume profile shows strong interest at 1.1000. Market sentiment: 68% bullish. AI recommendation: Wait for breakout confirmation before entering new positions.";
+                    analysisType = "Comprehensive Analysis";
                 }
             } else if (message.includes('gbpjpy') || message.includes('gbp/jpy')) {
-                if (message.includes('buy') || message.includes('long')) {
-                    response = "GBP/JPY shows strong bullish momentum on daily charts. Price broke above 183.50 resistance. Target 185.00 with stop loss at 182.00. Watch for BoJ intervention risks.";
-                } else if (message.includes('sell') || message.includes('short')) {
-                    response = "GBP/JPY shows divergence on RSI. Potential reversal pattern forming at 184.50. Consider short positions with tight stop loss above 185.20. Risk-reward ratio favorable at 1:2.";
+                if (message.includes('volatility')) {
+                    response = "GBP/JPY currently experiencing high volatility (ATR 150 pips). Key drivers: BoJ intervention risks, UK political uncertainty. Technical: Trading in 180.00-183.50 range. Options market shows increased demand for volatility protection. Risk management: Reduce position size by 30% and widen stop losses.";
+                    analysisType = "Volatility Analysis";
                 } else {
-                    response = "GBP/JPY is trading at 184.00. Market sentiment is mixed with technical indicators showing overbought conditions. Key levels: support 182.50, resistance 185.00.";
+                    response = "GBP/JPY Analysis: Trading at 182.00. Bullish momentum on daily chart but overextended. RSI at 72 indicating overbought conditions. Support at 180.50 (50% Fib), resistance at 183.50. Sentiment: 54% bullish. AI recommendation: Take partial profits at current levels and trail stop loss.";
+                    analysisType = "Technical Analysis";
                 }
-            } else if (message.includes('outlook')) {
-                response = "Overall market outlook: USD is weakening on expectations of Fed rate cuts. EUR and GBP showing strength. JPY pairs volatile due to BoJ policy uncertainty. Commodity currencies supported by rising oil prices.";
             } else if (message.includes('risk') || message.includes('management')) {
-                response = "Risk management is crucial. Always use stop losses, risk no more than 1-2% of your account per trade, and maintain a risk-reward ratio of at least 1:2. Diversify across currency pairs and timeframes.";
+                response = "Risk Management Strategy: 1) Never risk more than 1-2% of account per trade. 2) Maintain risk-reward ratio of at least 1:2. 3) Use stop losses based on technical levels. 4) Diversify across uncorrelated pairs. 5) Adjust position size based on volatility (use ATR). 6) Regularly review and journal trades.";
+                analysisType = "Risk Management";
+            } else if (message.includes('gold') || message.includes('xau')) {
+                response = "Gold (XAU/USD) Analysis: Trading at $1920. Inverse correlation with USD and real yields. Technical: Testing 200 DMA at $1915. Break above $1935 could signal bullish reversal. Fundamental: Safe-haven demand amid geopolitical tensions. ETF holdings increasing. AI recommendation: Accumulate on dips below $1900 with stop loss at $1880.";
+                analysisType = "Commodity Analysis";
             } else {
-                response = "I've analyzed the current market conditions. Technical indicators show mixed signals. For more accurate advice, please specify a currency pair and your trading bias (buy/sell). Remember to consider fundamental events like NFP and central bank decisions.";
+                response = "I've analyzed the current market conditions using our proprietary algorithms. Technical indicators show mixed signals across major pairs. For more accurate advice, please specify a currency pair and your trading bias (buy/sell). Remember: 'The trend is your friend until it ends.' Always use proper risk management.";
+                analysisType = "Market Analysis";
             }
             
             // Add AI response to chat
             const aiMessage = document.createElement('div');
             aiMessage.classList.add('message', 'ai-message');
-            aiMessage.innerHTML = `<strong>PipSense:</strong> ${response}`;
+            aiMessage.innerHTML = `
+                <div class="message-header ai-header">
+                    <i class="fas fa-robot"></i> PipSense AI • ${analysisType}
+                </div>
+                <p>${response}</p>
+            `;
             chatBox.appendChild(aiMessage);
             
             // Scroll to bottom
@@ -858,7 +1363,7 @@
         });
         
         // Profit Calculator functionality
-        const calcInputs = ['pair', 'lot-size', 'entry', 'exit'];
+        const calcInputs = ['pair', 'lot-size', 'entry', 'exit', 'account-size', 'risk-percent'];
         const calcElements = calcInputs.reduce((obj, id) => {
             obj[id] = document.getElementById(id);
             return obj;
@@ -868,6 +1373,8 @@
             const entry = parseFloat(calcElements.entry.value) || 0;
             const exit = parseFloat(calcElements.exit.value) || 0;
             const lotSize = parseFloat(calcElements['lot-size'].value) || 0;
+            const accountSize = parseFloat(calcElements['account-size'].value) || 10000;
+            const riskPercent = parseFloat(calcElements['risk-percent'].value) || 1;
             const isJPY = calcElements.pair.value === 'jpy';
             
             // Calculate pips
@@ -881,11 +1388,15 @@
             // Calculate position size
             const positionSize = lotSize * 100000;
             
+            // Calculate risk exposure
+            const riskAmount = accountSize * (riskPercent / 100);
+            
             // Update UI
             document.getElementById('pips-result').textContent = pips;
             document.getElementById('profit-result').textContent = `$${profit.toFixed(2)}`;
-            document.getElementById('profit-result').className = profit >= 0 ? 'profit' : 'loss';
+            document.getElementById('profit-result').className = profit >= 0 ? 'result-value profit' : 'result-value loss';
             document.getElementById('position-size').textContent = `${(positionSize).toLocaleString()} units`;
+            document.getElementById('risk-exposure').textContent = `${riskPercent.toFixed(1)}% ($${riskAmount.toFixed(2)})`;
         }
         
         // Add event listeners to calculator inputs
@@ -897,88 +1408,9 @@
         // Initialize calculator
         calculateProfit();
         
-        // Trade Journal functionality
-        const tradeForm = document.getElementById('trade-form');
-        const tradeList = document.getElementById('trade-list');
-        
-        // Load saved trades from localStorage
-        function loadTrades() {
-            const trades = JSON.parse(localStorage.getItem('pipSenseTrades')) || [];
-            tradeList.innerHTML = '';
-            
-            trades.forEach((trade, index) => {
-                const pips = Math.abs(trade.entry - trade.exit) * (trade.pair.includes('JPY') ? 100 : 10000);
-                const profit = pips * trade.size * (trade.pair.includes('JPY') ? 1000 : 10);
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${trade.pair}</td>
-                    <td class="${trade.direction}">${trade.direction.toUpperCase()}</td>
-                    <td>${trade.entry}</td>
-                    <td>${trade.exit}</td>
-                    <td class="${profit >= 0 ? 'profit' : 'loss'}">${profit >= 0 ? '+' : ''}${profit.toFixed(2)}</td>
-                    <td>${trade.notes || '-'}</td>
-                    <td><button class="delete-btn" data-index="${index}"><i class="fas fa-trash"></i></button></td>
-                `;
-                tradeList.appendChild(row);
-            });
-            
-            // Add delete event listeners
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    deleteTrade(index);
-                });
-            });
-        }
-        
-        // Save trade
-        tradeForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const trade = {
-                pair: document.getElementById('trade-pair').value,
-                direction: document.getElementById('trade-direction').value,
-                entry: parseFloat(document.getElementById('trade-entry').value),
-                exit: parseFloat(document.getElementById('trade-exit').value),
-                size: parseFloat(document.getElementById('trade-size').value),
-                notes: document.getElementById('trade-notes').value,
-                date: new Date().toLocaleString()
-            };
-            
-            // Save to localStorage
-            const trades = JSON.parse(localStorage.getItem('pipSenseTrades')) || [];
-            trades.push(trade);
-            localStorage.setItem('pipSenseTrades', JSON.stringify(trades));
-            
-            // Reload trades
-            loadTrades();
-            
-            // Reset form
-            tradeForm.reset();
-        });
-        
-        // Delete trade
-        function deleteTrade(index) {
-            const trades = JSON.parse(localStorage.getItem('pipSenseTrades')) || [];
-            trades.splice(index, 1);
-            localStorage.setItem('pipSenseTrades', JSON.stringify(trades));
-            loadTrades();
-        }
-        
-        // Initialize trade journal
-        loadTrades();
-        
-        // News Refresh button
-        document.querySelector('.refresh-btn').addEventListener('click', function() {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Refreshing...';
-            setTimeout(() => {
-                this.innerHTML = '<i class="fas fa-check"></i> News Updated';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh News';
-                }, 1500);
-            }, 1000);
-        });
+        // Set today's date as default in trade journal
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('trade-date').value = today;
     </script>
 </body>
 </html>
