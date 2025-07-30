@@ -3,14 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PipSense - AI Trading Assistant</title>
+    <title>PipSense AI - Advanced Trading Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #4f46e5;
             --primary-dark: #4338ca;
+            --primary-light: #818cf8;
             --secondary: #06b6d4;
+            --secondary-dark: #0891b2;
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
@@ -20,6 +22,9 @@
             --gray: #94a3b8;
             --card-bg: #1e293b;
             --card-border: #334155;
+            --neon-blue: #00f5d4;
+            --neon-purple: #9d4edd;
+            --neon-pink: #ff006e;
         }
         
         * {
@@ -34,6 +39,7 @@
             color: var(--light);
             min-height: 100vh;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         .container {
@@ -61,50 +67,97 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            position: relative;
         }
         
         .logo-icon {
-            background: var(--primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--primary) 100%);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
         }
         
         .logo h1 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 1.75rem;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            font-size: 1.9rem;
+            background: linear-gradient(90deg, var(--primary-light) 0%, var(--neon-blue) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
         
-        .market-selector {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .market-btn {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--gray);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .market-btn.active {
-            background: var(--primary);
+        .logo::after {
+            content: "ALPHA";
+            position: absolute;
+            top: -8px;
+            right: -35px;
+            background: var(--neon-pink);
             color: white;
-            border-color: var(--primary);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            transform: rotate(15deg);
+        }
+        
+        /* Navigation Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 50px;
+            padding: 5px;
+            margin: 1.5rem 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+        
+        .tab i {
+            font-size: 1.1rem;
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
         }
         
         /* Alert Banner */
@@ -117,6 +170,7 @@
             align-items: center;
             gap: 0.75rem;
             animation: pulse 2s infinite;
+            border-left: 4px solid var(--neon-pink);
         }
         
         @keyframes pulse {
@@ -129,7 +183,7 @@
             font-size: 1.25rem;
         }
         
-        /* Main Layout */
+        /* Dashboard Layout */
         .dashboard {
             display: grid;
             grid-template-columns: 1fr;
@@ -149,6 +203,17 @@
             border: 1px solid var(--card-border);
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .panel::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
         }
         
         .panel-header {
@@ -189,34 +254,31 @@
         }
         
         .message {
-            max-width: 80%;
-            padding: 0.9rem 1.2rem;
+            max-width: 85%;
+            padding: 1rem 1.5rem;
             border-radius: 18px;
             animation: fadeIn 0.3s ease;
             position: relative;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .user-message {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--neon-purple) 100%);
             align-self: flex-end;
             border-bottom-right-radius: 5px;
         }
         
         .ai-message {
-            background: #2d3748;
+            background: linear-gradient(135deg, #2d3748 0%, #1e293b 100%);
             align-self: flex-start;
             border-bottom-left-radius: 5px;
+            border-left: 3px solid var(--neon-blue);
         }
         
         .message-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
             font-size: 0.85rem;
             opacity: 0.8;
         }
@@ -226,35 +288,45 @@
             padding: 1rem;
             border-top: 1px solid var(--card-border);
             gap: 0.75rem;
+            background: rgba(15, 23, 42, 0.5);
         }
         
         .chat-input input {
             flex: 1;
-            padding: 0.9rem 1.2rem;
+            padding: 1rem 1.5rem;
             border-radius: 50px;
             background: #1a2438;
             border: 1px solid var(--card-border);
             color: var(--light);
             font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .chat-input input:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+            outline: none;
         }
         
         .chat-input button {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--primary) 100%);
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
             font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
         }
         
         .chat-input button:hover {
-            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(79, 70, 229, 0.4);
         }
         
         /* Sentiment Styles */
@@ -264,6 +336,7 @@
             border-radius: 12px;
             text-align: center;
             margin-bottom: 1.5rem;
+            border: 1px solid rgba(6, 182, 212, 0.2);
         }
         
         .sentiment-header {
@@ -286,6 +359,8 @@
             font-size: 1.75rem;
             font-weight: 700;
             font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .sentiment-explanation {
@@ -294,6 +369,7 @@
             border-radius: 12px;
             font-size: 0.95rem;
             line-height: 1.7;
+            text-align: left;
         }
         
         /* Calculator Styles */
@@ -306,12 +382,13 @@
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
             color: var(--gray);
+            font-weight: 500;
         }
         
         .input-group input, 
         .input-group select {
             width: 100%;
-            padding: 0.9rem;
+            padding: 1rem;
             border-radius: 12px;
             background: #1a2438;
             border: 1px solid var(--card-border);
@@ -324,6 +401,7 @@
             padding: 1.5rem;
             border-radius: 12px;
             margin-top: 1.5rem;
+            border: 1px solid rgba(6, 182, 212, 0.2);
         }
         
         .result-item {
@@ -348,19 +426,21 @@
         .calculate-btn {
             width: 100%;
             padding: 1rem;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--neon-purple) 0%, var(--primary) 100%);
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
             margin-top: 1rem;
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
         }
         
         .calculate-btn:hover {
-            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(79, 70, 229, 0.4);
         }
         
         /* News Styles */
@@ -377,6 +457,7 @@
             display: flex;
             gap: 1rem;
             transition: transform 0.3s;
+            border-left: 3px solid var(--danger);
         }
         
         .news-item:hover {
@@ -406,22 +487,47 @@
         /* Premium CTA */
         .premium-cta {
             background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 16px;
             text-align: center;
-            margin-top: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--primary-light);
+        }
+        
+        .premium-cta::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+            pointer-events: none;
         }
         
         .premium-cta h3 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .premium-cta p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
         }
         
         .premium-btn {
-            background: #fbbf24;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
             color: #78350f;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1rem 2.5rem;
             border-radius: 50px;
             font-weight: 700;
             font-size: 1.1rem;
@@ -430,12 +536,14 @@
             display: inline-flex;
             align-items: center;
             gap: 0.75rem;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
         }
         
         .premium-btn:hover {
-            background: #fcd34d;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(251, 191, 36, 0.4);
         }
         
         /* Footer Styles */
@@ -459,10 +567,13 @@
             color: var(--gray);
             text-decoration: none;
             transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .footer-links a:hover {
-            color: var(--light);
+            color: var(--neon-blue);
         }
         
         /* Responsive Adjustments */
@@ -473,13 +584,18 @@
             }
             
             .logo h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
-            .market-selector {
-                width: 100%;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
+            .tabs {
+                flex-wrap: wrap;
+                border-radius: 12px;
+            }
+            
+            .tab {
+                flex: 1 0 45%;
+                margin-bottom: 5px;
+                border-radius: 12px;
             }
             
             .chat-messages {
@@ -487,8 +603,122 @@
             }
             
             .message {
-                max-width: 90%;
+                max-width: 95%;
             }
+        }
+        
+        /* Market Selector */
+        .market-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        
+        .market-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--gray);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .market-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Sentiment Indicators */
+        .indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .indicator-card {
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .indicator-card h4 {
+            color: var(--gray);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .indicator-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        /* Advanced Chart */
+        .chart-container {
+            height: 300px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .chart-container::before {
+            content: "ADVANCED MARKET CHART";
+            position: absolute;
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 3rem;
+            font-weight: 800;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 20px;
+        }
+        
+        .loading div {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--neon-blue);
+            animation: loading 1.2s linear infinite;
+        }
+        
+        .loading div:nth-child(1) {
+            left: 8px;
+            animation-delay: 0s;
+        }
+        
+        .loading div:nth-child(2) {
+            left: 32px;
+            animation-delay: 0.2s;
+        }
+        
+        .loading div:nth-child(3) {
+            left: 56px;
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes loading {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.5); opacity: 0.5; }
         }
     </style>
 </head>
@@ -502,12 +732,26 @@
                     </div>
                     <h1>PipSense AI</h1>
                 </div>
-                <div class="market-selector">
-                    <button class="market-btn active">Forex</button>
-                    <button class="market-btn">Crypto</button>
-                    <button class="market-btn">Stocks</button>
-                    <button class="market-btn">Indices</button>
-                    <button class="market-btn">Commodities</button>
+                <div>
+                    <button class="market-btn" id="account-btn"><i class="fas fa-user"></i> Account</button>
+                </div>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" data-tab="dashboard">
+                    <i class="fas fa-home"></i> Dashboard
+                </div>
+                <div class="tab" data-tab="assistant">
+                    <i class="fas fa-robot"></i> AI Assistant
+                </div>
+                <div class="tab" data-tab="calculator">
+                    <i class="fas fa-calculator"></i> Calculator
+                </div>
+                <div class="tab" data-tab="sentiment">
+                    <i class="fas fa-chart-line"></i> Sentiment
+                </div>
+                <div class="tab" data-tab="news">
+                    <i class="fas fa-newspaper"></i> News
                 </div>
             </div>
         </header>
@@ -515,50 +759,48 @@
         <div class="alert-banner">
             <i class="fas fa-exclamation-triangle"></i>
             <div>
-                <strong>USD - Non-Farm Payrolls</strong> in 2 hours. Expect high volatility!
+                <strong>USD - Non-Farm Payrolls</strong> in 2 hours. Expect high volatility! 
+                <span style="opacity: 0.7; margin-left: 10px;">Impact: HIGH | Previous: 239K | Forecast: 210K</span>
             </div>
         </div>
         
-        <div class="dashboard">
-            <!-- Left Panel: Chatbot -->
-            <div class="panel">
-                <div class="panel-header">
-                    <h2><i class="fas fa-robot"></i> Trading Assistant</h2>
-                    <button id="reset-chat" class="market-btn"><i class="fas fa-sync-alt"></i> Reset</button>
-                </div>
-                <div class="panel-content">
-                    <div class="chat-container">
-                        <div class="chat-messages" id="chat-messages">
-                            <!-- Messages will be inserted here by JavaScript -->
-                            <div class="message ai-message">
-                                <div class="message-header">
-                                    <span>PipSense AI</span>
-                                    <span>Just now</span>
-                                </div>
-                                <div class="message-content">
-                                    Hello! I'm your AI trading assistant. How can I help you today? You can ask about market sentiment, profit calculations, or trading strategies.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chat-input">
-                            <input type="text" id="user-input" placeholder="Ask about markets, strategies, or calculations...">
-                            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Panel: Tools -->
-            <div>
-                <!-- Sentiment Card -->
+        <!-- Dashboard Tab -->
+        <div class="tab-content active" id="dashboard-tab">
+            <div class="dashboard">
+                <!-- Left Panel: Market Overview -->
                 <div class="panel">
                     <div class="panel-header">
-                        <h2><i class="fas fa-chart-line"></i> Market Sentiment</h2>
+                        <h2><i class="fas fa-globe"></i> Market Overview</h2>
+                        <div class="market-selector">
+                            <button class="market-btn active">Forex</button>
+                            <button class="market-btn">Crypto</button>
+                            <button class="market-btn">Stocks</button>
+                            <button class="market-btn">Indices</button>
+                            <button class="market-btn">Commodities</button>
+                        </div>
                     </div>
                     <div class="panel-content">
-                        <div class="input-group">
-                            <label for="asset-input">Asset / Currency Pair</label>
-                            <input type="text" id="asset-input" placeholder="e.g. BTC/USD, EUR/USD, AAPL" value="EUR/USD">
+                        <div class="chart-container">
+                            <!-- Chart will be visualized here -->
+                        </div>
+                        
+                        <div class="indicators">
+                            <div class="indicator-card">
+                                <h4>RSI (14)</h4>
+                                <div class="indicator-value neutral">42.6</div>
+                            </div>
+                            <div class="indicator-card">
+                                <h4>MACD (12,26)</h4>
+                                <div class="indicator-value bearish">-0.0025</div>
+                            </div>
+                            <div class="indicator-card">
+                                <h4>Stoch (14,3,3)</h4>
+                                <div class="indicator-value bullish">78.2</div>
+                            </div>
+                            <div class="indicator-card">
+                                <h4>ADX (14)</h4>
+                                <div class="indicator-value neutral">24.3</div>
+                            </div>
                         </div>
                         
                         <div class="sentiment-card">
@@ -566,20 +808,140 @@
                                 <div class="sentiment-icon">
                                     <i class="fas fa-arrow-trend-down bearish"></i>
                                 </div>
-                                <div class="sentiment-value bearish">Bearish</div>
+                                <div class="sentiment-value bearish">Bearish Trend</div>
                             </div>
                             <div class="sentiment-explanation">
-                                EUR/USD is showing bearish momentum with price breaking below the 200-day moving average. RSI at 35 indicates potential oversold conditions, but trend remains downward with strong USD fundamentals.
+                                <p><strong>EUR/USD</strong> is showing bearish momentum with price breaking below the 200-day moving average. RSI at 35 indicates potential oversold conditions, but trend remains downward with strong USD fundamentals.</p>
+                                <p style="margin-top: 10px;">Key resistance at 1.0950, support at 1.0820. Next major catalyst: FOMC meeting tomorrow.</p>
                             </div>
                         </div>
-                        
-                        <button class="calculate-btn" id="analyze-btn">
-                            <i class="fas fa-magnifying-glass-chart"></i> Analyze Market
-                        </button>
                     </div>
                 </div>
                 
-                <!-- Calculator -->
+                <!-- Right Panel: Assistant & News -->
+                <div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2><i class="fas fa-robot"></i> AI Assistant</h2>
+                            <button id="ai-reset" class="market-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="panel-content">
+                            <div class="chat-container">
+                                <div class="chat-messages" id="chat-messages">
+                                    <div class="message ai-message">
+                                        <div class="message-header">
+                                            <span>PipSense AI</span>
+                                            <span>Just now</span>
+                                        </div>
+                                        <div class="message-content">
+                                            Hello! I'm your AI trading assistant. I've detected high-impact news coming in 2 hours. Would you like me to analyze potential trade setups for EUR/USD?
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="chat-input">
+                                    <input type="text" id="user-input" placeholder="Ask about markets, strategies, or calculations...">
+                                    <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h2><i class="fas fa-bell"></i> Economic Alerts</h2>
+                        </div>
+                        <div class="panel-content">
+                            <div class="news-list">
+                                <div class="news-item">
+                                    <div>
+                                        <div class="news-badge">HIGH</div>
+                                        <div class="news-time">2 hrs</div>
+                                    </div>
+                                    <div class="news-content">
+                                        <strong>USD - Non-Farm Payrolls</strong>
+                                        <p>US employment data release. Expect USD volatility across all pairs.</p>
+                                    </div>
+                                </div>
+                                <div class="news-item">
+                                    <div>
+                                        <div class="news-badge">MED</div>
+                                        <div class="news-time">Tomorrow</div>
+                                    </div>
+                                    <div class="news-content">
+                                        <strong>EUR - ECB Interest Rate Decision</strong>
+                                        <p>European Central Bank rate announcement and press conference.</p>
+                                    </div>
+                                </div>
+                                <div class="news-item">
+                                    <div>
+                                        <div class="news-badge">LOW</div>
+                                        <div class="news-time">2 days</div>
+                                    </div>
+                                    <div class="news-content">
+                                        <strong>CAD - BoC Business Outlook Survey</strong>
+                                        <p>Bank of Canada business sentiment report.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="premium-cta">
+                <h3>Unlock AI+ Premium</h3>
+                <p>Advanced analytics, real-time alerts, and institutional-grade trading signals</p>
+                <button class="premium-btn">
+                    <i class="fas fa-bolt"></i> Upgrade Now - ₦500/month
+                </button>
+            </div>
+        </div>
+        
+        <!-- AI Assistant Tab -->
+        <div class="tab-content" id="assistant-tab">
+            <div class="dashboard">
+                <div class="panel" style="grid-column: 1 / -1;">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-robot"></i> Advanced Trading Assistant</h2>
+                        <div>
+                            <button class="market-btn"><i class="fas fa-history"></i> History</button>
+                            <button class="market-btn"><i class="fas fa-sync-alt"></i> Reset</button>
+                        </div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="chat-container" style="height: 600px;">
+                            <div class="chat-messages" id="assistant-chat">
+                                <div class="message ai-message">
+                                    <div class="message-header">
+                                        <span>PipSense AI</span>
+                                        <span>Today</span>
+                                    </div>
+                                    <div class="message-content">
+                                        <p>Welcome to the advanced trading assistant. I'm equipped with over 600 market analysis patterns and real-time data processing capabilities. How can I assist with your trading today?</p>
+                                        <p style="margin-top: 10px;">You can ask me to:</p>
+                                        <ul style="padding-left: 20px; margin-top: 5px;">
+                                            <li>Analyze specific currency pairs or assets</li>
+                                            <li>Calculate profit/loss scenarios</li>
+                                            <li>Explain technical indicators</li>
+                                            <li>Provide risk management strategies</li>
+                                            <li>Backtest trading ideas</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="assistant-input" placeholder="Ask complex trading questions...">
+                                <button id="assistant-send"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calculator Tab -->
+        <div class="tab-content" id="calculator-tab">
+            <div class="dashboard">
                 <div class="panel">
                     <div class="panel-header">
                         <h2><i class="fas fa-calculator"></i> Profit Calculator</h2>
@@ -616,18 +978,31 @@
                             <input type="number" id="exit-price" placeholder="Exit price" value="1.0910">
                         </div>
                         
+                        <div class="input-group">
+                            <label for="commission">Commission (%)</label>
+                            <input type="number" id="commission" placeholder="e.g. 0.1" value="0.1">
+                        </div>
+                        
                         <button class="calculate-btn" id="calculate-btn">
                             <i class="fas fa-calculator"></i> Calculate Profit
                         </button>
                         
                         <div class="calculator-result">
                             <div class="result-item">
-                                <span>Pips Movement:</span>
+                                <span>Pips/Points Movement:</span>
                                 <span class="result-value positive">60 pips</span>
                             </div>
                             <div class="result-item">
-                                <span>Profit/Loss:</span>
+                                <span>Gross Profit/Loss:</span>
                                 <span class="result-value positive">$300.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Commission:</span>
+                                <span class="result-value negative">$15.00</span>
+                            </div>
+                            <div class="result-item">
+                                <span>Net Profit/Loss:</span>
+                                <span class="result-value positive">$285.00</span>
                             </div>
                             <div class="result-item">
                                 <span>ROI:</span>
@@ -637,75 +1012,84 @@
                     </div>
                 </div>
                 
-                <!-- News & Premium -->
                 <div class="panel">
                     <div class="panel-header">
-                        <h2><i class="fas fa-bell"></i> Economic Alerts</h2>
+                        <h2><i class="fas fa-lightbulb"></i> Risk Management</h2>
                     </div>
                     <div class="panel-content">
-                        <div class="news-list">
-                            <div class="news-item">
-                                <div>
-                                    <div class="news-badge">HIGH</div>
-                                    <div class="news-time">2 hrs</div>
-                                </div>
-                                <div class="news-content">
-                                    <strong>USD - Non-Farm Payrolls</strong>
-                                    <p>US employment data release. Expect USD volatility.</p>
-                                </div>
+                        <div class="input-group">
+                            <label for="account-balance">Account Balance ($)</label>
+                            <input type="number" id="account-balance" placeholder="e.g. 5000" value="5000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="risk-percent">Risk Percentage (%)</label>
+                            <input type="number" id="risk-percent" placeholder="e.g. 1" value="1">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="stop-loss">Stop Loss (Pips/Points)</label>
+                            <input type="number" id="stop-loss" placeholder="e.g. 20" value="20">
+                        </div>
+                        
+                        <button class="calculate-btn">
+                            <i class="fas fa-shield-alt"></i> Calculate Position Size
+                        </button>
+                        
+                        <div class="calculator-result">
+                            <div class="result-item">
+                                <span>Risk Amount:</span>
+                                <span class="result-value">$50.00</span>
                             </div>
-                            <div class="news-item">
-                                <div>
-                                    <div class="news-badge">MED</div>
-                                    <div class="news-time">Tomorrow</div>
-                                </div>
-                                <div class="news-content">
-                                    <strong>EUR - ECB Interest Rate Decision</strong>
-                                    <p>European Central Bank rate announcement.</p>
-                                </div>
+                            <div class="result-item">
+                                <span>Position Size:</span>
+                                <span class="result-value positive">0.83 lots</span>
                             </div>
-                            <div class="news-item">
-                                <div>
-                                    <div class="news-badge">LOW</div>
-                                    <div class="news-time">2 days</div>
-                                </div>
-                                <div class="news-content">
-                                    <strong>CAD - BoC Business Outlook Survey</strong>
-                                    <p>Bank of Canada business sentiment report.</p>
-                                </div>
+                            <div class="result-item">
+                                <span>Risk-Reward Ratio:</span>
+                                <span class="result-value positive">1:3</span>
                             </div>
                         </div>
+                        
+                        <div class="sentiment-explanation" style="margin-top: 1.5rem;">
+                            <p><strong>Risk Management Tip:</strong> Never risk more than 1-2% of your account on a single trade. Use stop losses for every position and aim for at least 1:2 risk-reward ratios.</p>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="premium-cta">
-                    <h3>Unlock AI+ Mode</h3>
-                    <p>Daily forecasts, real-time alerts, and advanced analytics</p>
-                    <button class="premium-btn">
-                        <i class="fas fa-bolt"></i> Upgrade Now - ₦500/month
-                    </button>
                 </div>
             </div>
         </div>
         
+        <!-- Footer -->
         <footer>
-            <p>© 2023 PipSense AI. All rights reserved. This is for educational purposes only.</p>
+            <p>© 2023 PipSense AI. All rights reserved. Trading involves risk. This is for educational purposes only.</p>
             <div class="footer-links">
                 <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="#"><i class="fab fa-github"></i> GitHub</a>
                 <a href="#"><i class="fas fa-book"></i> Documentation</a>
-                <a href="#"><i class="fas fa-lock"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-lock"></i> Privacy</a>
+                <a href="#"><i class="fas fa-file-alt"></i> Terms</a>
             </div>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Market selector
-            const marketBtns = document.querySelectorAll('.market-btn');
-            marketBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    marketBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
+            // Tab navigation
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
                 });
             });
             
@@ -713,59 +1097,61 @@
             const chatMessages = document.getElementById('chat-messages');
             const userInput = document.getElementById('user-input');
             const sendBtn = document.getElementById('send-btn');
-            const resetBtn = document.getElementById('reset-chat');
+            const resetBtn = document.getElementById('ai-reset');
             
-            // Sample AI responses
-            const aiResponses = [
-                { 
-                    keywords: ['sentiment', 'bullish', 'bearish', 'neutral', 'outlook'], 
-                    response: "Current sentiment for EUR/USD is bearish. Price is below the 200-day MA with RSI at 35. However, the Fed's dovish stance could provide support. Consider short positions with tight stops."
-                },
-                { 
-                    keywords: ['calculate', 'profit', 'pips', 'lot', 'ROI'], 
-                    response: "For 0.5 lots at 60 pips: Profit = $300. Remember to account for spread and commission. Risk management is crucial - never risk more than 1% per trade."
-                },
-                { 
-                    keywords: ['news', 'event', 'alert', 'NFP', 'ECB'], 
-                    response: "Key events today: USD Non-Farm Payrolls in 2 hours (HIGH impact), EUR ECB speech at 15:00 (MED impact). Avoid trading during high-impact news if you're risk-averse."
-                },
-                { 
-                    keywords: ['strategy', 'approach', 'method', 'trade'], 
-                    response: "For current market conditions, consider: 1) Breakout trading with ATR-based stops, 2) Mean reversion at key S/R levels. Always use stop losses and take profits. Never risk more than 1% of your account."
-                },
-                { 
-                    keywords: ['risk', 'management', 'stop loss', 'position'], 
-                    response: "Effective risk management: 1) Use 1% risk rule per trade, 2) Set stop losses at technical levels, 3) Take profit at 1:2 or 1:3 risk-reward ratio. Emotional discipline is key to long-term success."
-                },
-                { 
-                    keywords: ['hello', 'hi', 'hey'], 
-                    response: "Hello! I'm PipSense AI, your trading assistant. How can I help you today? Ask about market sentiment, profit calculations, or trading strategies."
-                },
-                { 
-                    keywords: ['thank', 'thanks', 'appreciate'], 
-                    response: "You're welcome! Remember: 'The market is designed to fool most of the people most of the time.' - Jesse Livermore. Stay disciplined and trade wisely."
-                },
-                { 
-                    keywords: ['psychology', 'emotional', 'fear', 'greed'], 
-                    response: "Trading psychology is crucial. Control fear and greed by: 1) Following your trading plan, 2) Not chasing losses, 3) Taking breaks after big wins or losses. 'The most important quality is emotional discipline.' - Warren Buffett"
-                },
-                { 
-                    keywords: ['bitcoin', 'btc', 'crypto'], 
-                    response: "BTC/USD is currently showing neutral sentiment. Trading at $29,500 with resistance at $30,000. MACD shows weakening bullish momentum. Watch for breakout above $30,200 or breakdown below $29,000."
-                },
-                { 
-                    keywords: ['gold', 'xau'], 
-                    response: "Gold (XAU/USD) is bullish amid dollar weakness. Currently at $1,950 with next resistance at $1,975. RSI at 62 suggests room for upside. Consider long positions with stop below $1,930."
-                }
-            ];
+            // Advanced AI responses with context awareness
+            const aiResponses = {
+                sentiment: [
+                    "Based on the latest market data, EUR/USD is showing bearish momentum with price breaking below the 200-day MA. RSI at 35 indicates potential oversold conditions, but trend remains downward.",
+                    "Current sentiment for BTC/USD is neutral. Trading in a tight range between $29,500 and $30,200. MACD shows weakening bullish momentum.",
+                    "Gold (XAU/USD) is bullish amid dollar weakness. Currently at $1,950 with next resistance at $1,975. RSI at 62 suggests room for upside.",
+                    "AAPL stock is showing bullish sentiment after strong earnings. Breaking above $180 resistance with high volume. Next target $185.",
+                    "The DAX index is bearish with concerns about European economy. Trading below 15,800 support level. Next support at 15,500."
+                ],
+                calculation: [
+                    "For 0.5 lots at 60 pips: Profit = $300. Remember to account for spread and commission. Risk management is crucial - never risk more than 1% per trade.",
+                    "Position size calculation: With $5,000 account, 1% risk ($50), and 20 pip stop loss, maximum position size is 0.83 lots for EUR/USD.",
+                    "ROI calculation: Entry at 1.0850, exit at 1.0910 with 0.5 lots gives 5.2% return on margin. Consider taking partial profits at 1.0890.",
+                    "Risk-reward ratio: For a 20 pip stop loss and 60 pip take profit, your risk-reward ratio is 1:3 - an excellent setup."
+                ],
+                strategy: [
+                    "For current market conditions, consider: 1) Breakout trading with ATR-based stops, 2) Mean reversion at key S/R levels. Always use stop losses and take profits.",
+                    "Scalping strategy: Trade during London-New York overlap with 5-minute charts. Use 5 EMA and 20 EMA crossovers with RSI confirmation.",
+                    "Swing trading approach: Identify daily chart trends, enter on 4-hour pullbacks. Use Fibonacci retracements for entry points with 1:3 RR ratio.",
+                    "News trading: For NFP, place buy stop above and sell stop below current price 20 pips. Cancel the losing order once one triggers."
+                ],
+                risk: [
+                    "Effective risk management: 1) Use 1% risk rule per trade, 2) Set stop losses at technical levels, 3) Take profit at 1:2 or 1:3 risk-reward ratio. Emotional discipline is key to long-term success.",
+                    "Diversify your portfolio: Don't put all capital in one asset. Allocate 30% forex, 30% stocks, 20% crypto, 20% commodities.",
+                    "Position sizing is crucial. Calculate your position based on stop loss distance, not arbitrary lot sizes.",
+                    "Avoid revenge trading after losses. Take a break and return with a clear mind."
+                ],
+                news: [
+                    "Key events today: USD Non-Farm Payrolls in 2 hours (HIGH impact), EUR ECB speech at 15:00 (MED impact). Avoid trading during high-impact news if you're risk-averse.",
+                    "Upcoming events: FOMC meeting tomorrow - expect USD volatility. Current expectations: 90% chance of rate hold.",
+                    "Earnings reports today: AAPL beat estimates, AMZN missed on cloud revenue. Tech stocks showing mixed reactions.",
+                    "Geopolitical alert: Tensions in Middle East could impact oil prices. Monitor XBR/USD for breakout opportunities."
+                ],
+                psychology: [
+                    "Trading psychology is crucial. Control fear and greed by: 1) Following your trading plan, 2) Not chasing losses, 3) Taking breaks after big wins or losses.",
+                    "Develop a trader's mindset: Treat trading as a business, not gambling. Focus on process over profits.",
+                    "Common psychological traps: Overtrading, revenge trading, fear of missing out (FOMO). Keep a trading journal to identify patterns.",
+                    "Meditation and exercise can improve trading performance by reducing stress and improving decision-making."
+                ],
+                default: [
+                    "I've analyzed the market conditions and suggest waiting for clearer signals. Would you like me to set up a price alert?",
+                    "Based on your trading style, I recommend reviewing the risk management section. Can I assist with position sizing?",
+                    "Market conditions are currently choppy. Consider reducing position sizes until clearer trends emerge.",
+                    "I've detected a potential setup on the 4-hour chart. Would you like me to walk you through the analysis?"
+                ]
+            };
             
-            // Default responses
-            const defaultResponses = [
-                "I'm designed to assist with trading queries. Try asking about market sentiment, profit calculations, or trading strategies.",
-                "As an AI trading assistant, I can help analyze markets, calculate profits, and provide trading insights. What would you like to know?",
-                "For trading success, focus on risk management and emotional discipline. How can I assist you today?",
-                "The markets are constantly changing. I can help you navigate them. What specific question do you have?"
-            ];
+            // Context memory
+            let context = {
+                lastAsset: "EUR/USD",
+                lastMarket: "Forex",
+                riskLevel: "moderate"
+            };
             
             function addMessage(content, isUser = false) {
                 const messageDiv = document.createElement('div');
@@ -790,17 +1176,42 @@
             function getAIResponse(userMessage) {
                 const lowerMsg = userMessage.toLowerCase();
                 
-                // Check for matching response
-                for (const response of aiResponses) {
-                    for (const keyword of response.keywords) {
-                        if (lowerMsg.includes(keyword)) {
-                            return response.response;
-                        }
-                    }
+                // Context updating
+                if (lowerMsg.includes("eur") || lowerMsg.includes("euro")) context.lastAsset = "EUR/USD";
+                if (lowerMsg.includes("btc") || lowerMsg.includes("bitcoin")) context.lastAsset = "BTC/USD";
+                if (lowerMsg.includes("gold") || lowerMsg.includes("xau")) context.lastAsset = "XAU/USD";
+                if (lowerMsg.includes("aapl")) context.lastAsset = "AAPL";
+                
+                if (lowerMsg.includes("forex")) context.lastMarket = "Forex";
+                if (lowerMsg.includes("crypto")) context.lastMarket = "Crypto";
+                if (lowerMsg.includes("stock")) context.lastMarket = "Stocks";
+                
+                // Response selection
+                let responseType = "default";
+                
+                if (lowerMsg.includes("sentiment") || lowerMsg.includes("bullish") || lowerMsg.includes("bearish")) {
+                    responseType = "sentiment";
+                } else if (lowerMsg.includes("calculate") || lowerMsg.includes("profit") || lowerMsg.includes("pips") || lowerMsg.includes("lot")) {
+                    responseType = "calculation";
+                } else if (lowerMsg.includes("strategy") || lowerMsg.includes("approach") || lowerMsg.includes("method")) {
+                    responseType = "strategy";
+                } else if (lowerMsg.includes("risk") || lowerMsg.includes("management") || lowerMsg.includes("stop loss")) {
+                    responseType = "risk";
+                } else if (lowerMsg.includes("news") || lowerMsg.includes("event") || lowerMsg.includes("alert")) {
+                    responseType = "news";
+                } else if (lowerMsg.includes("psychology") || lowerMsg.includes("emotional") || lowerMsg.includes("mindset")) {
+                    responseType = "psychology";
                 }
                 
-                // Return random default response
-                return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+                // Select random response from category
+                const responses = aiResponses[responseType];
+                let response = responses[Math.floor(Math.random() * responses.length)];
+                
+                // Personalize response
+                response = response.replace("EUR/USD", context.lastAsset);
+                response = response.replace("Forex", context.lastMarket);
+                
+                return response;
             }
             
             function handleUserMessage() {
@@ -810,11 +1221,29 @@
                 addMessage(message, true);
                 userInput.value = '';
                 
+                // Show loading indicator
+                const loadingMessage = document.createElement('div');
+                loadingMessage.classList.add('message', 'ai-message');
+                loadingMessage.innerHTML = `
+                    <div class="message-header">
+                        <span>PipSense AI</span>
+                        <span>...</span>
+                    </div>
+                    <div class="message-content">
+                        <div class="loading">
+                            <div></div><div></div><div></div>
+                        </div>
+                    </div>
+                `;
+                chatMessages.appendChild(loadingMessage);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
                 // Simulate AI thinking delay
                 setTimeout(() => {
+                    chatMessages.removeChild(loadingMessage);
                     const aiResponse = getAIResponse(message);
                     addMessage(aiResponse, false);
-                }, 800);
+                }, 1200);
             }
             
             sendBtn.addEventListener('click', handleUserMessage);
@@ -827,57 +1256,6 @@
                 addMessage("Chat history cleared. How can I assist you with your trading today?", false);
             });
             
-            // Sentiment analyzer
-            const analyzeBtn = document.getElementById('analyze-btn');
-            const sentimentValue = document.querySelector('.sentiment-value');
-            const sentimentIcon = document.querySelector('.sentiment-icon i');
-            const sentimentExplanation = document.querySelector('.sentiment-explanation');
-            
-            const sentiments = [
-                { 
-                    type: 'bullish', 
-                    icon: 'fa-arrow-trend-up',
-                    explanations: [
-                        "is showing strong bullish momentum with price above key moving averages. RSI at 65 indicates strength without being overbought. Consider long positions with stop below support.",
-                        "has broken key resistance with high volume. MACD shows increasing bullish divergence. Next target at recent highs. Maintain long positions with trailing stops.",
-                        "bullish sentiment is strengthening as fundamentals improve. Price action forming higher highs and higher lows. Enter long positions on pullbacks to support."
-                    ]
-                },
-                { 
-                    type: 'bearish', 
-                    icon: 'fa-arrow-trend-down',
-                    explanations: [
-                        "is showing bearish momentum with price breaking below the 200-day moving average. RSI at 35 indicates potential oversold conditions, but trend remains downward.",
-                        "has broken key support levels with increasing volume. Bearish MACD crossover suggests further downside potential. Consider short positions with tight stops.",
-                        "bearish sentiment is strengthening amid fundamental concerns. Price action forming lower highs and lower lows. Enter short positions on rallies to resistance."
-                    ]
-                },
-                { 
-                    type: 'neutral', 
-                    icon: 'fa-arrow-right-arrow-left',
-                    explanations: [
-                        "is trading in a tight range between key support and resistance. RSI at 50 indicates balanced momentum. Wait for breakout confirmation before taking positions.",
-                        "is consolidating after recent moves. Bollinger Bands are narrowing, suggesting a volatility expansion soon. Consider range-bound strategies or wait for breakout.",
-                        "shows neutral sentiment as bulls and bulls reach equilibrium. Price is trading around key moving averages. Use range trading strategies with defined support and resistance levels."
-                    ]
-                }
-            ];
-            
-            analyzeBtn.addEventListener('click', () => {
-                const assetInput = document.getElementById('asset-input').value || 'EUR/USD';
-                const randomSentiment = sentiments[Math.floor(Math.random() * sentiments.length)];
-                const randomExplanation = randomSentiment.explanations[Math.floor(Math.random() * randomSentiment.explanations.length)];
-                
-                sentimentValue.textContent = randomSentiment.type.charAt(0).toUpperCase() + randomSentiment.type.slice(1);
-                sentimentValue.className = 'sentiment-value ' + randomSentiment.type;
-                
-                sentimentIcon.className = 'fas ' + randomSentiment.icon + ' ' + randomSentiment.type;
-                sentimentExplanation.textContent = assetInput + ' ' + randomExplanation;
-                
-                // Add to chat
-                addMessage(`I analyzed ${assetInput}: Current sentiment is ${randomSentiment.type}. ${assetInput} ${randomExplanation}`, false);
-            });
-            
             // Profit calculator
             const calculateBtn = document.getElementById('calculate-btn');
             const resultItems = document.querySelectorAll('.result-item .result-value');
@@ -888,32 +1266,43 @@
                 const lotSize = parseFloat(document.getElementById('lot-size').value) || 0.5;
                 const entryPrice = parseFloat(document.getElementById('entry-price').value) || 1.0850;
                 const exitPrice = parseFloat(document.getElementById('exit-price').value) || 1.0910;
+                const commission = parseFloat(document.getElementById('commission').value) || 0.1;
                 
                 // Calculate values
                 const priceDiff = Math.abs(exitPrice - entryPrice);
+                const direction = exitPrice > entryPrice;
                 const pips = marketType === 'Forex' ? Math.round(priceDiff * 10000) : 0;
-                const profit = marketType === 'Forex' ? (priceDiff * 100000 * lotSize).toFixed(2) : 
-                             marketType === 'Crypto' ? (priceDiff * lotSize).toFixed(2) : 
-                             (priceDiff * lotSize).toFixed(2);
                 
-                const roi = ((priceDiff / entryPrice) * 100).toFixed(1);
-                const isProfit = exitPrice > entryPrice;
+                let profit = 0;
+                if (marketType === 'Forex') {
+                    profit = priceDiff * 100000 * lotSize;
+                } else if (marketType === 'Crypto') {
+                    profit = priceDiff * lotSize;
+                } else {
+                    profit = priceDiff * lotSize;
+                }
+                
+                const commissionAmount = profit * (commission / 100);
+                const netProfit = direction ? profit - commissionAmount : -profit - commissionAmount;
+                const roi = ((netProfit / (entryPrice * lotSize * (marketType === 'Forex' ? 1000 : 1)) * 100).toFixed(1);
                 
                 // Update results
                 resultItems[0].textContent = marketType === 'Forex' ? `${pips} pips` : 
                                            marketType === 'Crypto' ? `${(priceDiff / entryPrice * 100).toFixed(2)}%` : 
                                            `${priceDiff.toFixed(4)} points`;
-                resultItems[0].className = 'result-value ' + (isProfit ? 'positive' : 'negative');
+                resultItems[0].className = 'result-value ' + (direction ? 'positive' : 'negative');
                 
-                resultItems[1].textContent = `${isProfit ? '$' : '-$'}${profit}`;
-                resultItems[1].className = 'result-value ' + (isProfit ? 'positive' : 'negative');
+                resultItems[1].textContent = (direction ? '$' : '-$') + Math.abs(profit).toFixed(2);
+                resultItems[1].className = 'result-value ' + (direction ? 'positive' : 'negative');
                 
-                resultItems[2].textContent = `${isProfit ? '' : '-'}${roi}%`;
-                resultItems[2].className = 'result-value ' + (isProfit ? 'positive' : 'negative');
+                resultItems[2].textContent = '-$' + commissionAmount.toFixed(2);
+                resultItems[2].className = 'result-value negative';
                 
-                // Add to chat
-                const profitText = isProfit ? `profit of $${profit}` : `loss of $${Math.abs(profit)}`;
-                addMessage(`Calculated trade for ${assetSymbol}: ${marketType} trade with ${lotSize} ${marketType === 'Stocks' ? 'shares' : 'lots'} would result in ${profitText} (${roi}% ROI).`, false);
+                resultItems[3].textContent = (netProfit > 0 ? '$' : '-$') + Math.abs(netProfit).toFixed(2);
+                resultItems[3].className = 'result-value ' + (netProfit > 0 ? 'positive' : 'negative');
+                
+                resultItems[4].textContent = (netProfit > 0 ? '' : '-') + Math.abs(roi) + '%';
+                resultItems[4].className = 'result-value ' + (netProfit > 0 ? 'positive' : 'negative');
             });
         });
     </script>
