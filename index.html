@@ -1083,391 +1083,513 @@
             background: rgba(255, 255, 255, 0.1);
             color: #acacbe;
         }
+        
+        /* Full-screen mode */
+        .fullscreen-chat {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 2000;
+            background: #0f172a;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-chat .chat-box {
+            height: calc(100vh - 120px) !important;
+            border-radius: 12px;
+            flex: 1;
+        }
+        
+        .fullscreen-controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .fullscreen-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        
+        .fullscreen-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .chat-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-control-btn {
+            background: rgba(71, 85, 105, 0.3);
+            color: var(--text-primary);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .chat-control-btn:hover {
+            background: var(--primary);
+        }
+        
+        /* Collapsible sidebar */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: rgba(15, 23, 42, 0.95);
+            padding: 20px;
+            border-right: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .collapsed-sidebar .sidebar {
+            transform: translateX(-100%);
+            width: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        
+        .sidebar-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 101;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
-    <div class="production-badge">
-        <i class="fas fa-bolt"></i> Production Ready
-    </div>
-    
-    <div class="container">
-        <header>
-            <div class="header-gradient"></div>
-            <div class="logo">
+    <div class="app-container">
+        <div class="sidebar-toggle" id="sidebar-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <div class="sidebar">
+            <div class="logo" style="margin-bottom: 30px;">
                 <div class="logo-icon">
                     <i class="fas fa-brain"></i>
                 </div>
                 <h1>PipSense Pro</h1>
             </div>
-            <p class="tagline">AI-powered trading intelligence for professionals</p>
-        </header>
-        
-        <div class="tabs-container" id="tabs-container">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> <span>ChartBot</span></button>
-                <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> <span>News</span></button>
-                <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> <span>Calculator</span></button>
-                <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> <span>Sentiment</span></button>
-                <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></button>
-            </div>
-            <div class="tab-indicator" style="width: 170px; left: 50px;"></div>
-        </div>
-        
-        <!-- Tab 1: AI ChartBot -->
-        <div id="chartbot" class="tab-content active">
-            <div class="tab-header">
-                <div class="tab-icon">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <div>
-                    <h2 class="tab-title">AI ChartBot</h2>
-                    <p class="tab-subtitle">Proprietary market analysis AI</p>
-                </div>
-            </div>
             
-            <div class="chat-container">
-                <div class="chat-box">
-                    <div class="chat-messages" id="chat-messages">
-                        <div class="message ai-message">
-                            <div class="message-header ai-header">
-                                <i class="fas fa-robot"></i> PipSense AI
-                                <span class="ai-badge">v2.5 <i class="fas fa-certificate"></i></span>
-                            </div>
-                            <p>Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies.</p>
-                            <div class="ai-insight-tag">Proprietary Algorithm Active</div>
-                        </div>
-                    </div>
-                    
-                    <div class="chat-input-container">
-                        <div class="chat-input">
-                            <input type="text" id="user-input" placeholder="Ask a trading question...">
-                            <button id="send-btn"><i class="fas fa-paper-plane"></i> Analyze</button>
-                        </div>
-                    </div>
+            <div class="tabs-container" id="tabs-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> <span>ChartBot</span></button>
+                    <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> <span>News</span></button>
+                    <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> <span>Calculator</span></button>
+                    <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> <span>Sentiment</span></button>
+                    <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></button>
                 </div>
+                <div class="tab-indicator" style="width: 170px; left: 50px;"></div>
             </div>
         </div>
         
-        <!-- Tab 2: News Alerts -->
-        <div id="news" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-icon">
-                    <i class="fas fa-bell"></i>
-                </div>
-                <div>
-                    <h2 class="tab-title">Market News</h2>
-                    <p class="tab-subtitle">Real-time economic events</p>
-                </div>
+        <div class="main-content">
+            <div class="production-badge">
+                <i class="fas fa-bolt"></i> Production Ready
             </div>
             
-            <div class="news-grid">
-                <div class="news-card high-impact">
-                    <div class="impact-tag high-tag">HIGH</div>
-                    <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-exclamation-circle"></i> FOMC Statement</h3>
-                        <div class="news-time">Today, 18:00 GMT</div>
-                        <p class="news-body">Federal Reserve expected to maintain rates. USD volatility expected.</p>
+            <!-- Tab 1: AI ChartBot -->
+            <div id="chartbot" class="tab-content active">
+                <div class="fullscreen-controls">
+                    <button class="fullscreen-btn" id="fullscreen-btn">
+                        <i class="fas fa-expand"></i> Full Screen Mode
+                    </button>
+                    <div class="chat-controls">
+                        <button class="chat-control-btn" title="Clear chat">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="chat-control-btn" title="Export chat">
+                            <i class="fas fa-download"></i>
+                        </button>
                     </div>
                 </div>
                 
-                <div class="news-card medium-impact">
-                    <div class="impact-tag medium-tag">MEDIUM</div>
-                    <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-chart-line"></i> Eurozone CPI</h3>
-                        <div class="news-time">Today, 09:00 GMT</div>
-                        <p class="news-body">Inflation expected to ease to 5.1%. EUR pairs may see movement.</p>
-                    </div>
-                </div>
-                
-                <div class="news-card low-impact">
-                    <div class="impact-tag low-tag">LOW</div>
-                    <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-building"></i> UK Retail Sales</h3>
-                        <div class="news-time">Tomorrow, 06:00 GMT</div>
-                        <p class="news-body">Expected to show 0.3% MoM growth after previous decline.</p>
-                    </div>
-                </div>
-                
-                <div class="news-card high-impact">
-                    <div class="impact-tag high-tag">HIGH</div>
-                    <div class="news-content">
-                        <h3 class="news-title"><i class="fas fa-landmark"></i> BoJ Rate Decision</h3>
-                        <div class="news-time">Tomorrow, 03:00 GMT</div>
-                        <p class="news-body">Bank of Japan expected to maintain policy. JPY pairs at risk of volatility.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tab 3: Profit Calculator -->
-        <div id="calculator" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-icon">
-                    <i class="fas fa-calculator"></i>
-                </div>
-                <div>
-                    <h2 class="tab-title">Position Calculator</h2>
-                    <p class="tab-subtitle">Risk management with position sizing</p>
-                </div>
-            </div>
-            
-            <div class="calculator-container">
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label for="pair">Currency Pair</label>
-                        <select id="pair">
-                            <option value="non-jpy">EUR/USD</option>
-                            <option value="non-jpy">GBP/USD</option>
-                            <option value="jpy">USD/JPY</option>
-                            <option value="jpy">EUR/JPY</option>
-                            <option value="non-jpy">AUD/USD</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="lot-size">Position Size (Lots)</label>
-                        <input type="number" id="lot-size" value="1" min="0.01" step="0.01">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="entry">Entry Price</label>
-                        <input type="number" id="entry" value="1.1050" step="0.0001">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="exit">Exit Price</label>
-                        <input type="number" id="exit" value="1.1150" step="0.0001">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="account-size">Account Size ($)</label>
-                        <input type="number" id="account-size" value="10000">
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="risk-percent">Risk Percentage</label>
-                        <input type="number" id="risk-percent" value="1" min="0.1" max="100" step="0.1">
-                    </div>
-                </div>
-                
-                <div class="calculator-results">
-                    <div class="result-card">
-                        <div class="result-label">PIP Movement</div>
-                        <div class="result-value" id="pips-result">100.0</div>
-                    </div>
-                    
-                    <div class="result-card">
-                        <div class="result-label">Profit/Loss</div>
-                        <div class="result-value profit" id="profit-result">$1,000.00</div>
-                    </div>
-                    
-                    <div class="result-card">
-                        <div class="result-label">Position Size</div>
-                        <div class="result-value" id="position-size">100,000 units</div>
-                    </div>
-                    
-                    <div class="result-card">
-                        <div class="result-label">Risk Exposure</div>
-                        <div class="result-value" id="risk-exposure">1.0% ($100.00)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tab 4: Sentiment Scanner -->
-        <div id="sentiment" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-icon">
-                    <i class="fas fa-chart-pie"></i>
-                </div>
-                <div>
-                    <h2 class="tab-title">Market Sentiment</h2>
-                    <p class="tab-subtitle">Trader positioning and sentiment analysis</p>
-                </div>
-            </div>
-            
-            <div class="sentiment-grid">
-                <div class="sentiment-card">
-                    <div class="pair-header">
-                        <div class="pair-name">EUR/USD</div>
-                        <div class="price-change positive">+0.24%</div>
-                    </div>
-                    <div class="sentiment-bar">
-                        <div class="bullish" style="width: 68%;"></div>
-                    </div>
-                    <div class="sentiment-labels">
-                        <span>🟥 32% Bearish</span>
-                        <span>🟩 68% Bullish</span>
-                    </div>
-                    <p class="ai-insight-tag">AI Confidence: 89% <i class="fas fa-brain"></i></p>
-                </div>
-                
-                <div class="sentiment-card">
-                    <div class="pair-header">
-                        <div class="pair-name">GBP/USD</div>
-                        <div class="price-change positive">+0.18%</div>
-                    </div>
-                    <div class="sentiment-bar">
-                        <div class="bullish" style="width: 52%;"></div>
-                    </div>
-                    <div class="sentiment-labels">
-                        <span>🟥 48% Bearish</span>
-                        <span>🟩 52% Bullish</span>
-                    </div>
-                    <p class="ai-insight-tag">AI Confidence: 76% <i class="fas fa-brain"></i></p>
-                </div>
-                
-                <div class="sentiment-card">
-                    <div class="pair-header">
-                        <div class="pair-name">USD/JPY</div>
-                        <div class="price-change negative">-0.32%</div>
-                    </div>
-                    <div class="sentiment-bar">
-                        <div class="bullish" style="width: 46%;"></div>
-                    </div>
-                    <div class="sentiment-labels">
-                        <span>🟥 54% Bearish</span>
-                        <span>🟩 46% Bullish</span>
-                    </div>
-                    <p class="ai-insight-tag">AI Confidence: 82% <i class="fas fa-brain"></i></p>
-                </div>
-                
-                <div class="sentiment-card">
-                    <div class="pair-header">
-                        <div class="pair-name">AUD/USD</div>
-                        <div class="price-change negative">-0.15%</div>
-                    </div>
-                    <div class="sentiment-bar">
-                        <div class="bullish" style="width: 39%;"></div>
-                    </div>
-                    <div class="sentiment-labels">
-                        <span>🟥 61% Bearish</span>
-                        <span>🟩 39% Bullish</span>
-                    </div>
-                    <p class="ai-insight-tag">AI Confidence: 71% <i class="fas fa-brain"></i></p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Tab 5: Trade Journal -->
-        <div id="journal" class="tab-content">
-            <div class="tab-header">
-                <div class="tab-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <div>
-                    <h2 class="tab-title">Trade Journal</h2>
-                    <p class="tab-subtitle">Track and analyze your trading performance</p>
-                </div>
-            </div>
-            
-            <div class="journal-container">
-                <div class="trade-form-panel">
-                    <h3 style="margin-bottom: 15px; font-size: 1.2rem;">New Trade</h3>
-                    <form id="trade-form">
-                        <div class="trade-form-grid">
-                            <div class="input-group">
-                                <label for="trade-pair">Currency Pair</label>
-                                <input type="text" id="trade-pair" placeholder="e.g., EUR/USD" required>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="trade-direction">Direction</label>
-                                <select id="trade-direction" required>
-                                    <option value="buy">Buy</option>
-                                    <option value="sell">Sell</option>
-                                </select>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="trade-entry">Entry Price</label>
-                                <input type="number" id="trade-entry" step="0.0001" required>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="trade-exit">Exit Price</label>
-                                <input type="number" id="trade-exit" step="0.0001" required>
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="trade-size">Position Size</label>
-                                <input type="number" id="trade-size" value="1" step="0.01" min="0.01">
-                            </div>
-                            
-                            <div class="input-group">
-                                <label for="trade-notes">Notes</label>
-                                <textarea id="trade-notes" rows="3" placeholder="Strategy, emotions, lessons..."></textarea>
+                <div class="chat-container">
+                    <div class="chat-box">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message ai-message">
+                                <div class="message-header ai-header">
+                                    <i class="fas fa-robot"></i> PipSense AI
+                                    <span class="ai-badge">v2.5 <i class="fas fa-certificate"></i></span>
+                                </div>
+                                <p>Hello trader! I'm your AI trading assistant. Ask me anything about forex pairs, market outlook, or trading strategies.</p>
+                                <div class="ai-insight-tag">Proprietary Algorithm Active</div>
                             </div>
                         </div>
                         
-                        <div class="form-actions">
-                            <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
-                            <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear</button>
+                        <div class="chat-input-container">
+                            <div class="chat-input">
+                                <input type="text" id="user-input" placeholder="Ask a trading question...">
+                                <button id="send-btn"><i class="fas fa-paper-plane"></i> Analyze</button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab 2: News Alerts -->
+            <div id="news" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div>
+                        <h2 class="tab-title">Market News</h2>
+                        <p class="tab-subtitle">Real-time economic events</p>
+                    </div>
                 </div>
                 
-                <div class="trade-table-container">
-                    <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Trade History</h3>
-                    <table class="trade-table">
-                        <thead>
-                            <tr>
-                                <th>Pair</th>
-                                <th>Dir</th>
-                                <th>Entry</th>
-                                <th>Exit</th>
-                                <th>P/L</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="trade-list">
-                            <tr>
-                                <td>EUR/USD</td>
-                                <td class="buy-cell">BUY</td>
-                                <td>1.0950</td>
-                                <td>1.1025</td>
-                                <td class="profit-cell">+$750</td>
-                                <td class="action-cell">
-                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>USD/JPY</td>
-                                <td class="sell-cell">SELL</td>
-                                <td>149.80</td>
-                                <td>150.20</td>
-                                <td class="loss-cell">-$400</td>
-                                <td class="action-cell">
-                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>GBP/USD</td>
-                                <td class="buy-cell">BUY</td>
-                                <td>1.2600</td>
-                                <td>1.2720</td>
-                                <td class="profit-cell">+$1200</td>
-                                <td class="action-cell">
-                                    <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="news-grid">
+                    <div class="news-card high-impact">
+                        <div class="impact-tag high-tag">HIGH</div>
+                        <div class="news-content">
+                            <h3 class="news-title"><i class="fas fa-exclamation-circle"></i> FOMC Statement</h3>
+                            <div class="news-time">Today, 18:00 GMT</div>
+                            <p class="news-body">Federal Reserve expected to maintain rates. USD volatility expected.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card medium-impact">
+                        <div class="impact-tag medium-tag">MEDIUM</div>
+                        <div class="news-content">
+                            <h3 class="news-title"><i class="fas fa-chart-line"></i> Eurozone CPI</h3>
+                            <div class="news-time">Today, 09:00 GMT</div>
+                            <p class="news-body">Inflation expected to ease to 5.1%. EUR pairs may see movement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card low-impact">
+                        <div class="impact-tag low-tag">LOW</div>
+                        <div class="news-content">
+                            <h3 class="news-title"><i class="fas fa-building"></i> UK Retail Sales</h3>
+                            <div class="news-time">Tomorrow, 06:00 GMT</div>
+                            <p class="news-body">Expected to show 0.3% MoM growth after previous decline.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="news-card high-impact">
+                        <div class="impact-tag high-tag">HIGH</div>
+                        <div class="news-content">
+                            <h3 class="news-title"><i class="fas fa-landmark"></i> BoJ Rate Decision</h3>
+                            <div class="news-time">Tomorrow, 03:00 GMT</div>
+                            <p class="news-body">Bank of Japan expected to maintain policy. JPY pairs at risk of volatility.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <footer>
-            <p>PipSense Pro v2.0 | © 2023 QuantSense Analytics</p>
-            <div class="footer-links">
-                <a href="#" class="footer-link">Privacy</a>
-                <a href="#" class="footer-link">Terms</a>
-                <a href="#" class="footer-link">Support</a>
+            
+            <!-- Tab 3: Profit Calculator -->
+            <div id="calculator" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <div>
+                        <h2 class="tab-title">Position Calculator</h2>
+                        <p class="tab-subtitle">Risk management with position sizing</p>
+                    </div>
+                </div>
+                
+                <div class="calculator-container">
+                    <div class="calculator-inputs">
+                        <div class="input-group">
+                            <label for="pair">Currency Pair</label>
+                            <select id="pair">
+                                <option value="non-jpy">EUR/USD</option>
+                                <option value="non-jpy">GBP/USD</option>
+                                <option value="jpy">USD/JPY</option>
+                                <option value="jpy">EUR/JPY</option>
+                                <option value="non-jpy">AUD/USD</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="lot-size">Position Size (Lots)</label>
+                            <input type="number" id="lot-size" value="1" min="0.01" step="0.01">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="entry">Entry Price</label>
+                            <input type="number" id="entry" value="1.1050" step="0.0001">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="exit">Exit Price</label>
+                            <input type="number" id="exit" value="1.1150" step="0.0001">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="account-size">Account Size ($)</label>
+                            <input type="number" id="account-size" value="10000">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="risk-percent">Risk Percentage</label>
+                            <input type="number" id="risk-percent" value="1" min="0.1" max="100" step="0.1">
+                        </div>
+                    </div>
+                    
+                    <div class="calculator-results">
+                        <div class="result-card">
+                            <div class="result-label">PIP Movement</div>
+                            <div class="result-value" id="pips-result">100.0</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-label">Profit/Loss</div>
+                            <div class="result-value profit" id="profit-result">$1,000.00</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-label">Position Size</div>
+                            <div class="result-value" id="position-size">100,000 units</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-label">Risk Exposure</div>
+                            <div class="result-value" id="risk-exposure">1.0% ($100.00)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
+            
+            <!-- Tab 4: Sentiment Scanner -->
+            <div id="sentiment" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div>
+                        <h2 class="tab-title">Market Sentiment</h2>
+                        <p class="tab-subtitle">Trader positioning and sentiment analysis</p>
+                    </div>
+                </div>
+                
+                <div class="sentiment-grid">
+                    <div class="sentiment-card">
+                        <div class="pair-header">
+                            <div class="pair-name">EUR/USD</div>
+                            <div class="price-change positive">+0.24%</div>
+                        </div>
+                        <div class="sentiment-bar">
+                            <div class="bullish" style="width: 68%;"></div>
+                        </div>
+                        <div class="sentiment-labels">
+                            <span>🟥 32% Bearish</span>
+                            <span>🟩 68% Bullish</span>
+                        </div>
+                        <p class="ai-insight-tag">AI Confidence: 89% <i class="fas fa-brain"></i></p>
+                    </div>
+                    
+                    <div class="sentiment-card">
+                        <div class="pair-header">
+                            <div class="pair-name">GBP/USD</div>
+                            <div class="price-change positive">+0.18%</div>
+                        </div>
+                        <div class="sentiment-bar">
+                            <div class="bullish" style="width: 52%;"></div>
+                        </div>
+                        <div class="sentiment-labels">
+                            <span>🟥 48% Bearish</span>
+                            <span>🟩 52% Bullish</span>
+                        </div>
+                        <p class="ai-insight-tag">AI Confidence: 76% <i class="fas fa-brain"></i></p>
+                    </div>
+                    
+                    <div class="sentiment-card">
+                        <div class="pair-header">
+                            <div class="pair-name">USD/JPY</div>
+                            <div class="price-change negative">-0.32%</div>
+                        </div>
+                        <div class="sentiment-bar">
+                            <div class="bullish" style="width: 46%;"></div>
+                        </div>
+                        <div class="sentiment-labels">
+                            <span>🟥 54% Bearish</span>
+                            <span>🟩 46% Bullish</span>
+                        </div>
+                        <p class="ai-insight-tag">AI Confidence: 82% <i class="fas fa-brain"></i></p>
+                    </div>
+                    
+                    <div class="sentiment-card">
+                        <div class="pair-header">
+                            <div class="pair-name">AUD/USD</div>
+                            <div class="price-change negative">-0.15%</div>
+                        </div>
+                        <div class="sentiment-bar">
+                            <div class="bullish" style="width: 39%;"></div>
+                        </div>
+                        <div class="sentiment-labels">
+                            <span>🟥 61% Bearish</span>
+                            <span>🟩 39% Bullish</span>
+                        </div>
+                        <p class="ai-insight-tag">AI Confidence: 71% <i class="fas fa-brain"></i></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab 5: Trade Journal -->
+            <div id="journal" class="tab-content">
+                <div class="tab-header">
+                    <div class="tab-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div>
+                        <h2 class="tab-title">Trade Journal</h2>
+                        <p class="tab-subtitle">Track and analyze your trading performance</p>
+                    </div>
+                </div>
+                
+                <div class="journal-container">
+                    <div class="trade-form-panel">
+                        <h3 style="margin-bottom: 15px; font-size: 1.2rem;">New Trade</h3>
+                        <form id="trade-form">
+                            <div class="trade-form-grid">
+                                <div class="input-group">
+                                    <label for="trade-pair">Currency Pair</label>
+                                    <input type="text" id="trade-pair" placeholder="e.g., EUR/USD" required>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="trade-direction">Direction</label>
+                                    <select id="trade-direction" required>
+                                        <option value="buy">Buy</option>
+                                        <option value="sell">Sell</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="trade-entry">Entry Price</label>
+                                    <input type="number" id="trade-entry" step="0.0001" required>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="trade-exit">Exit Price</label>
+                                    <input type="number" id="trade-exit" step="0.0001" required>
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="trade-size">Position Size</label>
+                                    <input type="number" id="trade-size" value="1" step="0.01" min="0.01">
+                                </div>
+                                
+                                <div class="input-group">
+                                    <label for="trade-notes">Notes</label>
+                                    <textarea id="trade-notes" rows="3" placeholder="Strategy, emotions, lessons..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
+                                <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="trade-table-container">
+                        <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Trade History</h3>
+                        <table class="trade-table">
+                            <thead>
+                                <tr>
+                                    <th>Pair</th>
+                                    <th>Dir</th>
+                                    <th>Entry</th>
+                                    <th>Exit</th>
+                                    <th>P/L</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trade-list">
+                                <tr>
+                                    <td>EUR/USD</td>
+                                    <td class="buy-cell">BUY</td>
+                                    <td>1.0950</td>
+                                    <td>1.1025</td>
+                                    <td class="profit-cell">+$750</td>
+                                    <td class="action-cell">
+                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>USD/JPY</td>
+                                    <td class="sell-cell">SELL</td>
+                                    <td>149.80</td>
+                                    <td>150.20</td>
+                                    <td class="loss-cell">-$400</td>
+                                    <td class="action-cell">
+                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>GBP/USD</td>
+                                    <td class="buy-cell">BUY</td>
+                                    <td>1.2600</td>
+                                    <td>1.2720</td>
+                                    <td class="profit-cell">+$1200</td>
+                                    <td class="action-cell">
+                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <footer>
+                <p>PipSense Pro v2.0 | © 2023 QuantSense Analytics</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Privacy</a>
+                    <a href="#" class="footer-link">Terms</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <!-- Mobile Menu Button -->
@@ -1479,6 +1601,10 @@
         // Mobile menu functionality
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const tabsContainer = document.getElementById('tabs-container');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const appContainer = document.querySelector('.app-container');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        const chartbotTab = document.getElementById('chartbot');
         
         mobileMenuBtn.addEventListener('click', function() {
             tabsContainer.classList.toggle('active');
@@ -1489,6 +1615,21 @@
             } else {
                 this.style.opacity = '1';
                 this.style.pointerEvents = 'auto';
+            }
+        });
+        
+        // Sidebar toggle functionality
+        sidebarToggle.addEventListener('click', function() {
+            appContainer.classList.toggle('collapsed-sidebar');
+        });
+        
+        // Fullscreen functionality for ChartBot
+        fullscreenBtn.addEventListener('click', function() {
+            chartbotTab.classList.toggle('fullscreen-chat');
+            if (chartbotTab.classList.contains('fullscreen-chat')) {
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Full Screen';
+            } else {
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Full Screen Mode';
             }
         });
         
