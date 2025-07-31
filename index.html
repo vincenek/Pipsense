@@ -276,6 +276,7 @@
             flex-direction: column;
             gap: 15px;
             padding-bottom: 10px;
+            scroll-behavior: smooth;
         }
         
         .message {
@@ -359,6 +360,55 @@
             align-items: center;
             gap: 8px;
             min-width: 100px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        
+        .chat-input button:active {
+            transform: scale(0.97);
+        }
+        
+        .chat-input button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Loading indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            max-width: 120px;
+            margin-top: 5px;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #60a5fa;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: bounce 1.5s infinite;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
         }
         
         /* News Alerts - Mobile Enhanced */
@@ -375,6 +425,11 @@
             border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-3px);
         }
         
         .news-card::before {
@@ -540,6 +595,11 @@
             border-radius: 14px;
             padding: 20px;
             border: 1px solid var(--border-color);
+            transition: transform 0.3s;
+        }
+        
+        .sentiment-card:hover {
+            transform: translateY(-3px);
         }
         
         .pair-header {
@@ -641,9 +701,17 @@
             color: white;
         }
         
+        .save-btn:hover {
+            opacity: 0.9;
+        }
+        
         .clear-btn {
             background: rgba(71, 85, 105, 0.3);
             color: var(--text-primary);
+        }
+        
+        .clear-btn:hover {
+            background: rgba(71, 85, 105, 0.5);
         }
         
         .trade-table-container {
@@ -724,6 +792,14 @@
             transition: all 0.2s;
         }
         
+        .edit-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+        }
+        
+        .delete-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+        }
+        
         .edit-btn {
             background: rgba(59, 130, 246, 0.2);
             color: #60a5fa;
@@ -761,6 +837,10 @@
             font-size: 0.9rem;
         }
         
+        .footer-link:hover {
+            color: var(--text-primary);
+        }
+        
         /* Mobile Menu Button */
         .mobile-menu-btn {
             position: fixed;
@@ -780,6 +860,21 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.3s, opacity 0.3s;
+        }
+        
+        /* Production badge */
+        .production-badge {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: var(--success);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
         }
         
         /* Responsive Adjustments */
@@ -990,6 +1085,10 @@
     </style>
 </head>
 <body>
+    <div class="production-badge">
+        <i class="fas fa-bolt"></i> Production Ready
+    </div>
+    
     <div class="container">
         <header>
             <div class="header-gradient"></div>
@@ -1429,9 +1528,17 @@
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
         
+        // Function to scroll to bottom of chat
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
         function sendMessage() {
             const message = userInput.value.trim();
             if (message === '') return;
+            
+            // Disable send button while processing
+            sendBtn.disabled = true;
             
             // Add user message to chat
             const userMessage = document.createElement('div');
@@ -1448,12 +1555,33 @@
             userInput.value = '';
             
             // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            scrollToBottom();
+            
+            // Add typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(typingIndicator);
+            scrollToBottom();
             
             // Simulate AI response delay
             setTimeout(() => {
+                // Remove typing indicator
+                typingIndicator.remove();
+                
+                // Generate AI response
                 generateAIResponse(message);
-            }, 1000);
+                
+                // Re-enable send button
+                sendBtn.disabled = false;
+                
+                // Focus input
+                userInput.focus();
+            }, 1500);
         }
         
         // Enhanced AI with proprietary analysis
@@ -1501,7 +1629,7 @@
             chatMessages.appendChild(aiMessage);
             
             // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            scrollToBottom();
         }
         
         // Event listeners for chat
@@ -1509,6 +1637,9 @@
         userInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') sendMessage();
         });
+        
+        // Auto-scroll on load
+        window.addEventListener('load', scrollToBottom);
         
         // Profit Calculator functionality
         const calcInputs = ['pair', 'lot-size', 'entry', 'exit', 'account-size', 'risk-percent'];
@@ -1555,6 +1686,10 @@
         
         // Initialize calculator
         calculateProfit();
+        
+        // Production initialization
+        console.log("PipSense Pro initialized successfully");
+        console.log("Paystack Public Key: pk_test_1f759a668641f37cd1b315c1d9cfa5c01ec2f202");
     </script>
 </body>
 </html>
