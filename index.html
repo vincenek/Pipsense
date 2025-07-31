@@ -80,6 +80,9 @@
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(71, 85, 105, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .header-gradient {
@@ -137,11 +140,20 @@
         
         /* Enhanced Tab Navigation - Mobile Friendly */
         .tabs-container {
-            position: relative;
-            margin-bottom: 30px;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: 5px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 900;
+            padding: 10px;
+            margin-bottom: 0;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            display: flex;
+            justify-content: space-around;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
         }
         
         .tabs {
@@ -149,38 +161,34 @@
             gap: 6px;
             position: relative;
             z-index: 2;
-            width: max-content;
-            padding: 0 10px 5px;
-        }
-        
-        .tab-indicator {
-            position: absolute;
-            bottom: 0;
-            height: 3px;
-            background: var(--primary-gradient);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-            z-index: 1;
+            width: 100%;
+            padding: 0;
+            justify-content: space-around;
         }
         
         .tab-btn {
             background: rgba(30, 41, 59, 0.7);
             border: none;
             color: var(--text-secondary);
-            padding: 12px 20px;
+            padding: 12px 15px;
             border-radius: 10px;
             cursor: pointer;
             font-size: 0.95rem;
             font-weight: 500;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 4px;
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(71, 85, 105, 0.3);
             position: relative;
             z-index: 2;
-            white-space: nowrap;
+            min-width: 60px;
+            min-height: 60px;
+            flex: 1;
+            max-width: 80px;
         }
         
         .tab-btn:hover {
@@ -195,13 +203,21 @@
             box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
         }
         
+        .tab-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .tab-btn span {
+            font-size: 0.7rem;
+        }
+        
         /* Tab Content */
         .tab-content {
             display: none;
             background: rgba(30, 41, 59, 0.85);
             border-radius: 16px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 80px;
             border: 1px solid rgba(71, 85, 105, 0.3);
             backdrop-filter: blur(10px);
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
@@ -262,7 +278,8 @@
             background: rgba(15, 23, 42, 0.7);
             border-radius: 14px;
             padding: 18px;
-            height: 500px; /* Increased height */
+            height: calc(100vh - 280px);
+            max-height: 500px;
             overflow: hidden;
             border: 1px solid var(--border-color);
             display: flex;
@@ -352,7 +369,7 @@
             color: white;
             border: none;
             border-radius: 12px;
-            padding: 0 25px;
+            padding: 0 20px;
             cursor: pointer;
             font-weight: 600;
             font-size: 1rem;
@@ -841,27 +858,6 @@
             color: var(--text-primary);
         }
         
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: var(--primary-gradient);
-            border-radius: 50%;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            z-index: 1000;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s, opacity 0.3s;
-        }
-        
         /* Production badge */
         .production-badge {
             position: fixed;
@@ -875,114 +871,6 @@
             font-weight: 600;
             z-index: 1000;
             box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
-        }
-        
-        /* Responsive Adjustments */
-        @media (min-width: 768px) {
-            .container {
-                padding-top: 100px;
-            }
-            
-            .logo h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .tabs {
-                justify-content: center;
-                width: 100%;
-            }
-            
-            .news-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
-            .calculator-container {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .calculator-inputs {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-            
-            .sentiment-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
-            .journal-container {
-                grid-template-columns: 1fr 1.5fr;
-            }
-            
-            .trade-form-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            }
-            
-            .form-actions {
-                flex-direction: row;
-            }
-            
-            .mobile-menu-btn {
-                display: none;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            .tabs-container {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: var(--bg-card);
-                z-index: 900;
-                padding: 10px;
-                margin-bottom: 0;
-                transform: translateY(100%);
-                transition: transform 0.3s ease;
-                border-top: 1px solid var(--border-color);
-            }
-            
-            .tabs-container.active {
-                transform: translateY(0);
-                bottom: 60px; /* Match the height of the floating button */
-            }
-            
-            .tabs {
-                width: 100%;
-                padding: 0;
-            }
-            
-            .tab-btn {
-                flex: 1;
-                justify-content: center;
-                padding: 12px 10px;
-                font-size: 0.85rem;
-            }
-            
-            .tab-btn i {
-                font-size: 1.1rem;
-            }
-            
-            .tab-btn span {
-                display: none;
-            }
-            
-            .tab-indicator {
-                display: none;
-            }
-        }
-        
-        /* Tablet Styles */
-        @media (min-width: 480px) and (max-width: 767px) {
-            .calculator-inputs {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .form-actions {
-                flex-direction: row;
-            }
         }
         
         /* ChartBot innovation */
@@ -1031,7 +919,8 @@
         #chartbot .chat-box {
             background: #343541;
             border: none;
-            height: 550px; /* Even larger for better visibility */
+            height: calc(100vh - 280px);
+            max-height: 500px;
         }
         
         #chartbot .user-message {
@@ -1153,91 +1042,148 @@
             background: var(--primary);
         }
         
-        /* Collapsible sidebar */
-        .app-container {
-            display: flex;
-            min-height: 100vh;
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .container {
+                padding-top: 100px;
+            }
+            
+            .logo h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+            
+            .tabs {
+                justify-content: center;
+                width: 100%;
+                gap: 10px;
+            }
+            
+            .tab-btn {
+                flex-direction: row;
+                min-height: auto;
+                min-width: 150px;
+                padding: 12px 20px;
+            }
+            
+            .tab-btn span {
+                display: inline;
+                font-size: 0.9rem;
+            }
+            
+            .news-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .calculator-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .calculator-inputs {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .sentiment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .journal-container {
+                grid-template-columns: 1fr 1.5fr;
+            }
+            
+            .trade-form-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .form-actions {
+                flex-direction: row;
+            }
         }
         
-        .sidebar {
-            width: 250px;
-            background: rgba(15, 23, 42, 0.95);
-            padding: 20px;
-            border-right: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            z-index: 100;
+        /* Tablet Styles */
+        @media (min-width: 480px) and (max-width: 767px) {
+            .calculator-inputs {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-actions {
+                flex-direction: row;
+            }
+            
+            .chat-box {
+                height: 400px;
+            }
         }
         
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        
-        .collapsed-sidebar .sidebar {
-            transform: translateX(-100%);
-            width: 0;
-            padding: 0;
-            overflow: hidden;
-        }
-        
-        .sidebar-toggle {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 101;
-            background: var(--primary-gradient);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        /* Mobile-specific adjustments */
+        @media (max-width: 479px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tagline {
+                font-size: 0.8rem;
+            }
+            
+            .production-badge {
+                top: 10px;
+                right: 10px;
+                font-size: 0.7rem;
+                padding: 3px 8px;
+            }
+            
+            .chat-input button {
+                min-width: auto;
+                padding: 0 15px;
+            }
+            
+            .chat-input button span {
+                display: none;
+            }
+            
+            .chat-input button i {
+                margin-right: 0;
+            }
+            
+            .fullscreen-btn span {
+                display: none;
+            }
+            
+            .tab-btn {
+                padding: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <div class="sidebar-toggle" id="sidebar-toggle">
-            <i class="fas fa-bars"></i>
+        <div class="production-badge">
+            <i class="fas fa-bolt"></i> Production Ready
         </div>
         
-        <div class="sidebar">
-            <div class="logo" style="margin-bottom: 30px;">
+        <header>
+            <div class="header-gradient"></div>
+            <div class="logo">
                 <div class="logo-icon">
                     <i class="fas fa-brain"></i>
                 </div>
                 <h1>PipSense Pro</h1>
             </div>
-            
-            <div class="tabs-container" id="tabs-container">
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> <span>ChartBot</span></button>
-                    <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> <span>News</span></button>
-                    <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> <span>Calculator</span></button>
-                    <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> <span>Sentiment</span></button>
-                    <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></button>
-                </div>
-                <div class="tab-indicator" style="width: 170px; left: 50px;"></div>
-            </div>
-        </div>
+            <div class="tagline">AI-Powered Trading Intelligence Platform</div>
+        </header>
         
-        <div class="main-content">
-            <div class="production-badge">
-                <i class="fas fa-bolt"></i> Production Ready
-            </div>
-            
+        <div class="container">
             <!-- Tab 1: AI ChartBot -->
             <div id="chartbot" class="tab-content active">
                 <div class="fullscreen-controls">
                     <button class="fullscreen-btn" id="fullscreen-btn">
-                        <i class="fas fa-expand"></i> Full Screen Mode
+                        <i class="fas fa-expand"></i> <span>Full Screen Mode</span>
                     </button>
                     <div class="chat-controls">
-                        <button class="chat-control-btn" title="Clear chat">
+                        <button class="chat-control-btn" title="Clear chat" id="clear-chat">
                             <i class="fas fa-trash"></i>
                         </button>
                         <button class="chat-control-btn" title="Export chat">
@@ -1262,7 +1208,7 @@
                         <div class="chat-input-container">
                             <div class="chat-input">
                                 <input type="text" id="user-input" placeholder="Ask a trading question...">
-                                <button id="send-btn"><i class="fas fa-paper-plane"></i> Analyze</button>
+                                <button id="send-btn"><i class="fas fa-paper-plane"></i> <span>Analyze</span></button>
                             </div>
                         </div>
                     </div>
@@ -1524,314 +1470,337 @@
                             <div class="form-actions">
                                 <button type="submit" class="save-btn"><i class="fas fa-save"></i> Save Trade</button>
                                 <button type="reset" class="clear-btn"><i class="fas fa-eraser"></i> Clear</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <div class="trade-table-container">
-                        <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Trade History</h3>
-                        <table class="trade-table">
-                            <thead>
-                                <tr>
-                                    <th>Pair</th>
-                                    <th>Dir</th>
-                                    <th>Entry</th>
-                                    <th>Exit</th>
-                                    <th>P/L</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="trade-list">
-                                <tr>
-                                    <td>EUR/USD</td>
-                                    <td class="buy-cell">BUY</td>
-                                    <td>1.0950</td>
-                                    <td>1.1025</td>
-                                    <td class="profit-cell">+$750</td>
-                                    <td class="action-cell">
-                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>USD/JPY</td>
-                                    <td class="sell-cell">SELL</td>
-                                    <td>149.80</td>
-                                    <td>150.20</td>
-                                    <td class="loss-cell">-$400</td>
-                                    <td class="action-cell">
-                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>GBP/USD</td>
-                                    <td class="buy-cell">BUY</td>
-                                    <td>1.2600</td>
-                                    <td>1.2720</td>
-                                    <td class="profit-cell">+$1200</td>
-                                    <td class="action-cell">
-                                        <button class="edit-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="delete-btn"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
-            
-            <footer>
-                <p>PipSense Pro v2.0 | © 2023 QuantSense Analytics</p>
-                <div class="footer-links">
-                    <a href="#" class="footer-link">Privacy</a>
-                    <a href="#" class="footer-link">Terms</a>
-                    <a href="#" class="footer-link">Support</a>
-                </div>
-            </footer>
+          </form>
         </div>
+        
+        <div class="trade-table-container">
+          <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Trade History</h3>
+          <table class="trade-table">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>Dir</th>
+                <th>Entry</th>
+                <th>Exit</th>
+                <th>P/L</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="trade-list">
+              <tr>
+                <td>EUR/USD</td>
+                <td class="buy-cell">BUY</td>
+                <td>1.0950</td>
+                <td>1.1025</td>
+                <td class="profit-cell">+$750</td>
+                <td class="action-cell">
+                  <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                  <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>USD/JPY</td>
+                <td class="sell-cell">SELL</td>
+                <td>149.80</td>
+                <td>150.20</td>
+                <td class="loss-cell">-$400</td>
+                <td class="action-cell">
+                  <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                  <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>GBP/USD</td>
+                <td class="buy-cell">BUY</td>
+                <td>1.2600</td>
+                <td>1.2720</td>
+                <td class="profit-cell">+$1200</td>
+                <td class="action-cell">
+                  <button class="edit-btn"><i class="fas fa-edit"></i></button>
+                  <button class="delete-btn"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+    
+    <footer>
+      <p>PipSense Pro v2.0 | © 2023 QuantSense Analytics</p>
+      <div class="footer-links">
+        <a href="#" class="footer-link">Privacy</a>
+        <a href="#" class="footer-link">Terms</a>
+        <a href="#" class="footer-link">Support</a>
+      </div>
+    </footer>
+  </div>
+</div>
 
-    <!-- Mobile Menu Button -->
-    <button class="mobile-menu-btn" id="mobile-menu-btn">
-        <i class="fas fa-bars"></i>
-    </button>
+<!-- Fixed Mobile Menu -->
+<div class="tabs-container" id="tabs-container">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="chartbot"><i class="fas fa-robot"></i> <span>ChartBot</span></button>
+    <button class="tab-btn" data-tab="news"><i class="fas fa-bell"></i> <span>News</span></button>
+    <button class="tab-btn" data-tab="calculator"><i class="fas fa-calculator"></i> <span>Calculator</span></button>
+    <button class="tab-btn" data-tab="sentiment"><i class="fas fa-chart-pie"></i> <span>Sentiment</span></button>
+    <button class="tab-btn" data-tab="journal"><i class="fas fa-book"></i> <span>Journal</span></button>
+  </div>
+</div>
 
-    <script>
-        // Mobile menu functionality
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const tabsContainer = document.getElementById('tabs-container');
-        const sidebarToggle = document.getElementById('sidebar-toggle');
-        const appContainer = document.querySelector('.app-container');
-        const fullscreenBtn = document.getElementById('fullscreen-btn');
-        const chartbotTab = document.getElementById('chartbot');
-        
-        mobileMenuBtn.addEventListener('click', function() {
-            tabsContainer.classList.toggle('active');
-            // Hide the menu button when menu is open
-            if (tabsContainer.classList.contains('active')) {
-                this.style.opacity = '0';
-                this.style.pointerEvents = 'none';
-            } else {
-                this.style.opacity = '1';
-                this.style.pointerEvents = 'auto';
-            }
-        });
-        
-        // Sidebar toggle functionality
-        sidebarToggle.addEventListener('click', function() {
-            appContainer.classList.toggle('collapsed-sidebar');
-        });
-        
-        // Fullscreen functionality for ChartBot
-        fullscreenBtn.addEventListener('click', function() {
-            chartbotTab.classList.toggle('fullscreen-chat');
-            if (chartbotTab.classList.contains('fullscreen-chat')) {
-                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> Exit Full Screen';
-            } else {
-                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> Full Screen Mode';
-            }
-        });
-        
-        // Hide menu when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!tabsContainer.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                tabsContainer.classList.remove('active');
-                mobileMenuBtn.style.opacity = '1';
-                mobileMenuBtn.style.pointerEvents = 'auto';
-            }
-        });
-        
-        // Tab switching functionality
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Hide all tab content
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                // Show corresponding content
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-                
-                // Close mobile menu if open
-                tabsContainer.classList.remove('active');
-                mobileMenuBtn.style.opacity = '1';
-                mobileMenuBtn.style.pointerEvents = 'auto';
-            });
-        });
-        
-        // AI ChartBot functionality
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const sendBtn = document.getElementById('send-btn');
-        
-        // Function to scroll to bottom of chat
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        function sendMessage() {
-            const message = userInput.value.trim();
-            if (message === '') return;
-            
-            // Disable send button while processing
-            sendBtn.disabled = true;
-            
-            // Add user message to chat
-            const userMessage = document.createElement('div');
-            userMessage.classList.add('message', 'user-message');
-            userMessage.innerHTML = `
-                <div class="message-header">
-                    <i class="fas fa-user"></i> Trader
-                </div>
-                <p>${message}</p>
-            `;
-            chatMessages.appendChild(userMessage);
-            
-            // Clear input
-            userInput.value = '';
-            
-            // Scroll to bottom
-            scrollToBottom();
-            
-            // Add typing indicator
-            const typingIndicator = document.createElement('div');
-            typingIndicator.classList.add('typing-indicator');
-            typingIndicator.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            chatMessages.appendChild(typingIndicator);
-            scrollToBottom();
-            
-            // Simulate AI response delay
-            setTimeout(() => {
-                // Remove typing indicator
-                typingIndicator.remove();
-                
-                // Generate AI response
-                generateAIResponse(message);
-                
-                // Re-enable send button
-                sendBtn.disabled = false;
-                
-                // Focus input
-                userInput.focus();
-            }, 1500);
-        }
-        
-        // Enhanced AI with proprietary analysis
-        function generateAIResponse(message) {
-            message = message.toLowerCase();
-            let response = '';
-            let analysisType = '';
-            
-            // Enhanced rule-based AI responses with proprietary analysis
-            if (message.includes('eurusd') || message.includes('eur/usd')) {
-                if (message.includes('buy') || message.includes('long')) {
-                    response = "Proprietary analysis: EUR/USD shows strong bullish momentum (Bullish Index: 78/100). Key resistance at 1.1120. Risk-reward ratio favorable at 1:3.5. Recommended entry: 1.1050 with stop loss at 1.0980. Target: 1.1150-1.1200.";
-                    analysisType = "Proprietary Trade Idea";
-                } else if (message.includes('sell') || message.includes('short')) {
-                    response = "Proprietary analysis: EUR/USD approaching resistance with bearish divergence (Bearish Index: 65/100). Short opportunity at 1.1090 with stop loss at 1.1140. Risk: 50 pips, Reward: 100 pips. Volatility alert: Medium";
-                    analysisType = "Risk Analysis";
-                } else {
-                    response = "Proprietary analysis: EUR/USD trading at 1.1050. Bullish sentiment (68%). Support: 1.0950 (200 DMA), Resistance: 1.1100. Market Catalyst Score: 8.2/10. AI recommendation: Accumulate on dips.";
-                    analysisType = "Market Intelligence";
-                }
-            } else if (message.includes('gbpjpy') || message.includes('gbp/jpy')) {
-                response = "Proprietary analysis: GBP/JPY at 182.00. Volatility Index: High (82/100). Support: 180.50, Resistance: 183.50. Sentiment: 54% bullish. Market Catalyst Score: 7.8/10. Risk: BoJ intervention potential.";
-                analysisType = "Volatility Analysis";
-            } else if (message.includes('risk') || message.includes('management')) {
-                response = "Proprietary Risk Framework: 1) Position Size Algorithm: Risk ≤2% per trade 2) Dynamic Stop Loss based on ATR 3) Sentiment-based Take Profit 4) Correlation Matrix for portfolio diversification 5) AI-powered volatility adjustment";
-                analysisType = "Risk Management System";
-            } else if (message.includes('gold') || message.includes('xau')) {
-                response = "Proprietary analysis: Gold (XAU/USD) at $1920. Bullish Index: 72/100. Key support: $1900, resistance: $1940. Market Catalyst: Geopolitical tensions. AI recommendation: Accumulate below $1910 with stop loss at $1885.";
-                analysisType = "Commodity Intelligence";
-            } else {
-                response = "Proprietary Market Analysis: Our AI has scanned market conditions. Major pairs show bullish bias. USD weakness expected. For specific analysis, mention a currency pair. Remember: 'Trade with the trend, manage with precision'.";
-                analysisType = "Market Overview";
-            }
-            
-            // Add AI response to chat
-            const aiMessage = document.createElement('div');
-            aiMessage.classList.add('message', 'ai-message');
-            aiMessage.innerHTML = `
-                <div class="message-header ai-header">
-                    <i class="fas fa-robot"></i> PipSense AI • ${analysisType}
-                </div>
-                <p>${response}</p>
-                <div class="ai-insight-tag">AI Confidence: 92% <i class="fas fa-brain"></i></div>
-            `;
-            chatMessages.appendChild(aiMessage);
-            
-            // Scroll to bottom
-            scrollToBottom();
-        }
-        
-        // Event listeners for chat
-        sendBtn.addEventListener('click', sendMessage);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        // Auto-scroll on load
-        window.addEventListener('load', scrollToBottom);
-        
-        // Profit Calculator functionality
-        const calcInputs = ['pair', 'lot-size', 'entry', 'exit', 'account-size', 'risk-percent'];
-        const calcElements = calcInputs.reduce((obj, id) => {
-            obj[id] = document.getElementById(id);
-            return obj;
-        }, {});
-        
-        function calculateProfit() {
-            const entry = parseFloat(calcElements.entry.value) || 0;
-            const exit = parseFloat(calcElements.exit.value) || 0;
-            const lotSize = parseFloat(calcElements['lot-size'].value) || 0;
-            const accountSize = parseFloat(calcElements['account-size'].value) || 10000;
-            const riskPercent = parseFloat(calcElements['risk-percent'].value) || 1;
-            const isJPY = calcElements.pair.value === 'jpy';
-            
-            // Calculate pips
-            let pips = Math.abs(entry - exit) * (isJPY ? 100 : 10000);
-            pips = Math.round(pips * 10) / 10;
-            
-            // Calculate profit
-            let profit = pips * lotSize * (isJPY ? 1000 : 10);
-            profit = Math.round(profit * 100) / 100;
-            
-            // Calculate position size
-            const positionSize = lotSize * 100000;
-            
-            // Calculate risk exposure
-            const riskAmount = accountSize * (riskPercent / 100);
-            
-            // Update UI
-            document.getElementById('pips-result').textContent = pips;
-            document.getElementById('profit-result').textContent = `$${profit.toFixed(2)}`;
-            document.getElementById('profit-result').className = profit >= 0 ? 'result-value profit' : 'result-value loss';
-            document.getElementById('position-size').textContent = `${(positionSize).toLocaleString()} units`;
-            document.getElementById('risk-exposure').textContent = `${riskPercent.toFixed(1)}% ($${riskAmount.toFixed(2)})`;
-        }
-        
-        // Add event listeners to calculator inputs
-        calcInputs.forEach(id => {
-            calcElements[id].addEventListener('input', calculateProfit);
-            calcElements[id].addEventListener('change', calculateProfit);
-        });
-        
-        // Initialize calculator
-        calculateProfit();
-        
-        // Production initialization
-        console.log("PipSense Pro initialized successfully");
-        console.log("Paystack Public Key: pk_test_1f759a668641f37cd1b315c1d9cfa5c01ec2f202");
-    </script>
+<script>
+  // Tab switching functionality
+  document.querySelectorAll('.tab-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      button.classList.add('active');
+      
+      // Hide all tab content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Show corresponding content
+      const tabId = button.getAttribute('data-tab');
+      document.getElementById(tabId).classList.add('active');
+    });
+  });
+  
+  // Fullscreen functionality for ChartBot
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  const chartbotTab = document.getElementById('chartbot');
+  
+  fullscreenBtn.addEventListener('click', function() {
+    chartbotTab.classList.toggle('fullscreen-chat');
+    if (chartbotTab.classList.contains('fullscreen-chat')) {
+      fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i> <span>Exit Full Screen</span>';
+    } else {
+      fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i> <span>Full Screen Mode</span>';
+    }
+  });
+  
+  // Clear chat functionality
+  const clearChatBtn = document.getElementById('clear-chat');
+  const chatMessages = document.getElementById('chat-messages');
+  
+  clearChatBtn.addEventListener('click', function() {
+    // Keep the initial AI message
+    const initialMessage = chatMessages.firstElementChild;
+    chatMessages.innerHTML = '';
+    chatMessages.appendChild(initialMessage);
+  });
+  
+  // AI ChartBot functionality
+  const userInput = document.getElementById('user-input');
+  const sendBtn = document.getElementById('send-btn');
+  
+  // Function to scroll to bottom of chat
+  function scrollToBottom() {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+  
+  function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === '') return;
+    
+    // Disable send button while processing
+    sendBtn.disabled = true;
+    
+    // Add user message to chat
+    const userMessage = document.createElement('div');
+    userMessage.classList.add('message', 'user-message');
+    userMessage.innerHTML = `
+      <div class="message-header">
+        <i class="fas fa-user"></i> Trader
+      </div>
+      <p>${message}</p>
+    `;
+    chatMessages.appendChild(userMessage);
+    
+    // Clear input
+    userInput.value = '';
+    
+    // Scroll to bottom
+    scrollToBottom();
+    
+    // Add typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.classList.add('typing-indicator');
+    typingIndicator.innerHTML = `
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    `;
+    chatMessages.appendChild(typingIndicator);
+    scrollToBottom();
+    
+    // Simulate AI response delay
+    setTimeout(() => {
+      // Remove typing indicator
+      typingIndicator.remove();
+      
+      // Generate AI response
+      generateAIResponse(message);
+      
+      // Re-enable send button
+      sendBtn.disabled = false;
+      
+      // Focus input
+      userInput.focus();
+    }, 1500);
+  }
+  
+  // Enhanced AI with proprietary analysis
+  function generateAIResponse(message) {
+    message = message.toLowerCase();
+    let response = '';
+    let analysisType = '';
+    
+    // Enhanced rule-based AI responses with proprietary analysis
+    if (message.includes('eurusd') || message.includes('eur/usd')) {
+      if (message.includes('buy') || message.includes('long')) {
+        response = "Proprietary analysis: EUR/USD shows strong bullish momentum (Bullish Index: 78/100). Key resistance at 1.1120. Risk-reward ratio favorable at 1:3.5. Recommended entry: 1.1050 with stop loss at 1.0980. Target: 1.1150-1.1200.";
+        analysisType = "Proprietary Trade Idea";
+      } else if (message.includes('sell') || message.includes('short')) {
+        response = "Proprietary analysis: EUR/USD approaching resistance with bearish divergence (Bearish Index: 65/100). Short opportunity at 1.1090 with stop loss at 1.1140. Risk: 50 pips, Reward: 100 pips. Volatility alert: Medium";
+        analysisType = "Risk Analysis";
+      } else {
+        response = "Proprietary analysis: EUR/USD trading at 1.1050. Bullish sentiment (68%). Support: 1.0950 (200 DMA), Resistance: 1.1100. Market Catalyst Score: 8.2/10. AI recommendation: Accumulate on dips.";
+        analysisType = "Market Intelligence";
+      }
+    } else if (message.includes('gbpjpy') || message.includes('gbp/jpy')) {
+      response = "Proprietary analysis: GBP/JPY at 182.00. Volatility Index: High (82/100). Support: 180.50, Resistance: 183.50. Sentiment: 54% bullish. Market Catalyst Score: 7.8/10. Risk: BoJ intervention potential.";
+      analysisType = "Volatility Analysis";
+    } else if (message.includes('risk') || message.includes('management')) {
+      response = "Proprietary Risk Framework: 1) Position Size Algorithm: Risk ≤2% per trade 2) Dynamic Stop Loss based on ATR 3) Sentiment-based Take Profit 4) Correlation Matrix for portfolio diversification 5) AI-powered volatility adjustment";
+      analysisType = "Risk Management System";
+    } else if (message.includes('gold') || message.includes('xau')) {
+      response = "Proprietary analysis: Gold (XAU/USD) at $1920. Bullish Index: 72/100. Key support: $1900, resistance: $1940. Market Catalyst: Geopolitical tensions. AI recommendation: Accumulate below $1910 with stop loss at $1885.";
+      analysisType = "Commodity Intelligence";
+    } else {
+      response = "Proprietary Market Analysis: Our AI has scanned market conditions. Major pairs show bullish bias. USD weakness expected. For specific analysis, mention a currency pair. Remember: 'Trade with the trend, manage with precision'.";
+      analysisType = "Market Overview";
+    }
+    
+    // Add AI response to chat
+    const aiMessage = document.createElement('div');
+    aiMessage.classList.add('message', 'ai-message');
+    aiMessage.innerHTML = `
+      <div class="message-header ai-header">
+        <i class="fas fa-robot"></i> PipSense AI • ${analysisType}
+      </div>
+      <p>${response}</p>
+      <div class="ai-insight-tag">AI Confidence: 92% <i class="fas fa-brain"></i></div>
+    `;
+    chatMessages.appendChild(aiMessage);
+    
+    // Scroll to bottom
+    scrollToBottom();
+  }
+  
+  // Event listeners for chat
+  sendBtn.addEventListener('click', sendMessage);
+  userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+  
+  // Auto-scroll on load
+  window.addEventListener('load', scrollToBottom);
+  
+  // Profit Calculator functionality
+  const calcInputs = ['pair', 'lot-size', 'entry', 'exit', 'account-size', 'risk-percent'];
+  const calcElements = calcInputs.reduce((obj, id) => {
+    obj[id] = document.getElementById(id);
+    return obj;
+  }, {});
+  
+  function calculateProfit() {
+    const entry = parseFloat(calcElements.entry.value) || 0;
+    const exit = parseFloat(calcElements.exit.value) || 0;
+    const lotSize = parseFloat(calcElements['lot-size'].value) || 0;
+    const accountSize = parseFloat(calcElements['account-size'].value) || 10000;
+    const riskPercent = parseFloat(calcElements['risk-percent'].value) || 1;
+    const isJPY = calcElements.pair.value === 'jpy';
+    
+    // Calculate pips
+    let pips = Math.abs(entry - exit) * (isJPY ? 100 : 10000);
+    pips = Math.round(pips * 10) / 10;
+    
+    // Calculate profit
+    let profit = pips * lotSize * (isJPY ? 1000 : 10);
+    profit = Math.round(profit * 100) / 100;
+    
+    // Calculate position size
+    const positionSize = lotSize * 100000;
+    
+    // Calculate risk exposure
+    const riskAmount = accountSize * (riskPercent / 100);
+    
+    // Update UI
+    document.getElementById('pips-result').textContent = pips;
+    document.getElementById('profit-result').textContent = `$${profit.toFixed(2)}`;
+    document.getElementById('profit-result').className = profit >= 0 ? 'result-value profit' : 'result-value loss';
+    document.getElementById('position-size').textContent = `${(positionSize).toLocaleString()} units`;
+    document.getElementById('risk-exposure').textContent = `${riskPercent.toFixed(1)}% ($${riskAmount.toFixed(2)})`;
+  }
+  
+  // Add event listeners to calculator inputs
+  calcInputs.forEach(id => {
+    calcElements[id].addEventListener('input', calculateProfit);
+    calcElements[id].addEventListener('change', calculateProfit);
+  });
+  
+  // Initialize calculator
+  calculateProfit();
+  
+  // Trade form submission
+  const tradeForm = document.getElementById('trade-form');
+  const tradeList = document.getElementById('trade-list');
+  
+  tradeForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const pair = document.getElementById('trade-pair').value;
+    const direction = document.getElementById('trade-direction').value;
+    const entry = document.getElementById('trade-entry').value;
+    const exit = document.getElementById('trade-exit').value;
+    const size = document.getElementById('trade-size').value;
+    
+    // Calculate P/L (simplified)
+    const entryNum = parseFloat(entry);
+    const exitNum = parseFloat(exit);
+    const sizeNum = parseFloat(size);
+    const profitLoss = (exitNum - entryNum) * 10000 * sizeNum * 10; // Simplified calculation
+    
+    // Create new row
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+      <td>${pair}</td>
+      <td class="${direction === 'buy' ? 'buy-cell' : 'sell-cell'}">${direction.toUpperCase()}</td>
+      <td>${entry}</td>
+      <td>${exit}</td>
+      <td class="${profitLoss >= 0 ? 'profit-cell' : 'loss-cell'}">${profitLoss >= 0 ? '+' : ''}$${Math.abs(profitLoss).toFixed(2)}</td>
+      <td class="action-cell">
+        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+      </td>
+    `;
+    
+    // Add to table
+    tradeList.appendChild(newRow);
+    
+    // Reset form
+    tradeForm.reset();
+    
+    // Add success notification
+    alert('Trade saved successfully!');
+  });
+  
+  // Production initialization
+  console.log("PipSense Pro initialized successfully");
+</script>
 </body>
 </html>
